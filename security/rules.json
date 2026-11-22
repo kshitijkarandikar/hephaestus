@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "description": "Core security rules. Order of checks: deny, then allow, then ask, then default. The owner edits this file by hand. The assistant cannot (see write_deny). Applied by the code in core/, written from spec/security.md.",
+  "default_decision": "ask",
+  "read_deny": [
+    "**/.env*",
+    "**/secrets/**",
+    "**/*.pem",
+    "**/*.key",
+    "**/id_rsa*",
+    "~/.ssh/**",
+    "~/.aws/**",
+    "~/.config/gcloud/**"
+  ],
+  "write_deny": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    "kit",
+    "kit.cmd",
+    "core/**",
+    "spec/**",
+    "setup/**",
+    "security/**",
+    "worklog/**",
+    ".claude/**",
+    ".gemini/**",
+    ".git/**"
+  ],
+  "write_ask": [
+    "context/**",
+    "skills/**",
+    "solutions/**",
+    "integrations/**",
+    "inbox/**"
+  ],
+  "write_allow": [
+    "outputs/**"
+  ],
+  "command_deny": [
+    "\\bsudo\\b",
+    "\\brm\\s+-[a-z]*(rf|fr)",
+    "\\b(curl|wget|nc|ncat|scp|sftp|ssh|ftp|telnet)\\b",
+    "\\|\\s*(sh|bash|zsh|python3?)\\b",
+    "\\b(bash|sh|zsh)\\s+-c\\b",
+    "\\bgit\\s+(push|remote|config)\\b",
+    "\\bchmod\\s+(-R\\s+)?[0-7]*777",
+    "\\bbase64\\s+(-d|-D|--decode)",
+    "\\beval\\b",
+    "\\b(printenv|env)\\b\\s*($|\\|)",
+    "(\\.env\\b|\\.ssh\\b|\\.aws\\b|\\bsecrets?/|id_rsa|\\.pem\\b)",
+    "\\b(node|python3?)\\s+-[ec]\\b.*(child_process|subprocess|os\\.system|socket|urllib|requests|fetch\\(|https?:|require\\(|__import__|\\bfs\\b|writeFile|unlink|rmSync|shutil|\\bexec)",
+    "\\bKIT_[A-Z_]+",
+    ">>?\\s*[\"']?[^\\s\"']*(worklog/|security/|core/|setup/|spec/|kit\\.cmd|[\\s/]kit(\\s|$)|AGENTS\\.md|CLAUDE\\.md|GEMINI\\.md|\\.claude/|\\.git/)",
+    "\\b(tee|sed\\s+-i\\S*|mv|cp|rm|truncate|ln|chmod)\\b[^|;&]*(worklog/|security/|core/|setup/|spec/|kit\\.cmd|[\\s/]kit(\\s|$)|AGENTS\\.md|CLAUDE\\.md|GEMINI\\.md|\\.claude/|\\.git/)",
+    "\\bkit(\\.cmd)?\\s+check\\s+seal\\b"
+  ],
+  "command_allow": [
+    "^(\\./|\\.\\\\)?kit(\\.cmd)?\\s+(log|report|check|pdf|calc|doctor)\\b",
+    "^(date|pwd|ls|wc|head|tail|echo)\\b",
+    "^cat\\s+(outputs|inbox|context|skills)/",
+    "^git\\s+(status|log|diff|show)\\b",
+    "^mkdir\\s+-p\\s+(outputs|worklog)(/|\\s|$)"
+  ],
+  "command_ask": [
+    "\\bgit\\s+(commit|add|reset|checkout|clean|rm|merge|rebase)\\b",
+    "\\b(npm|pnpm|yarn|pip3?|brew|npx)\\b",
+    "\\b(rm|mv|cp|mkdir|touch)\\b",
+    "\\b(node|python3?|ruby|perl|php|deno|bun)\\s+-[ecr]\\b"
+  ],
+  "mcp_tool_rules": [
+    {
+      "match": "send|delete|trash|remove|share|permission|forward|empty",
+      "decision": "deny"
+    },
+    {
+      "match": "create|draft|insert|update|upload|write|move|copy|modify|reply|label|add",
+      "decision": "ask"
+    },
+    {
+      "match": "list|get|read|search|find|fetch|query|view|show|download",
+      "decision": "allow"
+    }
+  ],
+  "blocked_mcp_servers": [],
+  "actions": {
+    "send_email": "deny",
+    "create_email_draft": "ask",
+    "create_calendar_event": "ask",
+    "share_file": "deny",
+    "upload_file": "ask",
+    "delete_anything": "deny",
+    "change_invoice_status": "ask",
+    "write_to_invoices_log": "ask"
+  },
+  "scan_patterns": {
+    "api_key": {
+      "severity": "high",
+      "regex": "(sk-[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{30,}|AIza[0-9A-Za-z_-]{30,}|xox[baprs]-[A-Za-z0-9-]{10,})"
+    },
+    "private_key": {
+      "severity": "high",
+      "regex": "-----BEGIN [A-Z ]*PRIVATE KEY-----"
+    },
+    "password_assignment": {
+      "severity": "high",
+      "regex": "(password|passwd|wachtwoord|secret|token)\\s*[:=]\\s*\\S{4,}"
+    },
+    "iban": {
+      "severity": "info",
+      "regex": "\\b[A-Z]{2}\\d{2}(?:\\s?[A-Z0-9]{4}){2,7}\\s?[A-Z0-9]{1,4}\\b"
+    },
+    "possible_bsn": {
+      "severity": "medium",
+      "regex": "\\b(?:BSN|burgerservicenummer)\\D{0,15}\\d{8,9}\\b"
+    }
+  },
+  "card_number_check": true,
+  "injection_patterns": [
+    "ignore (all |any |your |the |previous |above )*(rules|instructions|guidelines)",
+    "disregard (all |any |your |the |previous |above )*(rules|instructions)",
+    "you are now\\b",
+    "(reveal|print|show) (your |the )?(system prompt|instructions)",
+    "(forward|send|email|upload|post) (all|every|the|my)\\b.{0,60}\\b(to|at)\\b.{0,40}(@|https?:)",
+    "do not (tell|inform|mention).{0,30}(user|sam)"
+  ],
+  "confidential_terms": []
+}

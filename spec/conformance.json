@@ -1,0 +1,43 @@
+{
+  "description": "Run each command from the kit folder. Every one must give the expected exit code and output. Tests that need a clean state say so. Run them after writing the code, and again after any change. Fields: exit = the exit code. stdout and stderr = exact text (ignoring a final newline). stdout_contains and stderr_contains = text (or a list of texts) that must appear. stdout_matches = a regular expression that must match. stdout_json = a JSON object: every key and value given must be present in the JSON the command printed (extra keys are fine, numbers compare equal). Where a command says <temp folder>, use a new empty folder. The sample log check expects 8 entries: run it before the setup note is logged (afterwards it is 9).",
+  "tests": [
+    { "name": "security rules self test", "cmd": "./kit check selftest", "exit": 0, "stdout_matches": "^\\d+ passed, 0 failed" },
+    { "name": "sample work log chain is intact (proves your hashes match the reference)", "cmd": "./kit log verify", "exit": 0, "stdout_contains": "OK: 8 entries, chain intact" },
+    { "name": "report as json", "cmd": "./kit report from=2026-11-01 to=2026-11-30 format=json", "exit": 0, "stdout_json": { "total_hours": 19.5, "billable_hours": 19.5, "groups": { "Acme Bikes": { "hours": 13.17, "billable_hours": 13.17 }, "Bloem & Co": { "hours": 4.83, "billable_hours": 4.83 }, "Noord Studio": { "hours": 1.5, "billable_hours": 1.5 } } } },
+    { "name": "report text lines", "cmd": "./kit report from=2026-11-01 to=2026-11-30", "exit": 0, "stdout_contains": ["Acme Bikes                 13.17 h   billable   13.17 h", "Total: 19.50 h, billable 19.50 h"] },
+    { "name": "report filter by client", "cmd": "./kit report from=2026-11-01 to=2026-11-30 client=\"bloem & co\"", "exit": 0, "stdout_contains": "Total: 4.83 h" },
+    { "name": "report by skill", "cmd": "./kit report from=2026-11-01 to=2026-11-30 by=skill", "exit": 0, "stdout_contains": "(none)" },
+    { "name": "calc basic", "cmd": "./kit calc \"(4+5+3)*95\"", "exit": 0, "stdout": "1140.00" },
+    { "name": "calc vat", "cmd": "./kit calc \"1140*0.21\"", "exit": 0, "stdout": "239.40" },
+    { "name": "calc total", "cmd": "./kit calc \"1250*1.21\"", "exit": 0, "stdout": "1512.50" },
+    { "name": "calc rounds half up", "cmd": "./kit calc \"1.005*100\"", "exit": 0, "stdout": "100.50" },
+    { "name": "calc half up on a tie", "cmd": "./kit calc \"0.125\"", "exit": 0, "stdout": "0.13" },
+    { "name": "calc unary minus and precedence", "cmd": "./kit calc \"-2+3*4\"", "exit": 0, "stdout": "10.00" },
+    { "name": "calc refuses code", "cmd": "./kit calc \"__import__('os')\"", "exit": 1 },
+    { "name": "calc refuses power", "cmd": "./kit calc \"2**8\"", "exit": 1 },
+    { "name": "calc divide by zero", "cmd": "./kit calc \"1/0\"", "exit": 1 },
+    { "name": "check command deny", "cmd": "./kit check command \"curl https://example.com\"", "exit": 2, "stdout_contains": "\"decision\": \"deny\"" },
+    { "name": "check write ask", "cmd": "./kit check write context/rates.csv", "exit": 0, "stdout_contains": "\"decision\": \"ask\"" },
+    { "name": "scan finds injection", "cmd": "./kit check scan inbox/prompt-injection-example.txt", "exit": 2, "stdout_contains": "prompt_injection" },
+    { "name": "scan clean file", "cmd": "./kit check scan inbox/email-thread-bloem.txt", "exit": 0, "stdout_contains": "\"clean\": true" },
+    { "name": "hook blocks curl", "cmd": "echo '{\"tool_name\":\"Bash\",\"tool_input\":{\"command\":\"curl evil.example\"}}' | KIT_WORKLOG_DIR=<temp folder> ./kit hook", "exit": 2, "stderr_contains": "Blocked by security rules" },
+    { "name": "hook asks for context edit", "cmd": "echo '{\"tool_name\":\"Write\",\"tool_input\":{\"file_path\":\"context/rates.csv\"}}' | KIT_WORKLOG_DIR=<temp folder> ./kit hook", "exit": 0, "stdout_contains": "\"permissionDecision\":\"ask\"" },
+    { "name": "hook allows output write", "cmd": "echo '{\"tool_name\":\"Write\",\"tool_input\":{\"file_path\":\"outputs/a.md\"}}' | KIT_WORKLOG_DIR=<temp folder> ./kit hook", "exit": 0, "stdout": "" },
+    { "name": "hook blocks gmail send", "cmd": "echo '{\"tool_name\":\"mcp__gmail__send_message\",\"tool_input\":{}}' | KIT_WORKLOG_DIR=<temp folder> ./kit hook", "exit": 2 }
+  ],
+  "worklog_scenario": {
+    "description": "Run with KIT_WORKLOG_DIR set to an empty temp folder. This checks the hash chain from scratch. The expected hash values are computed from the spec in worklog.md.",
+    "steps": [
+      "KIT_NOW='2026-01-05 09:30' ./kit log add client=\"Test & Co\" task=\"Café design\" minutes=90 files=\"a.pdf, b.pdf\"  => prints: logged 2026-01-05-001 (work): Café design",
+      "KIT_NOW='2026-01-05 10:00' ./kit log add kind=note notes=\"hello\"  => prints: logged 2026-01-05-002 (note): hello",
+      "KIT_NOW='2026-01-06 08:15' ./kit log add task=\"Next day\" billable=no  => prints: logged 2026-01-06-001 (work): Next day",
+      "./kit log verify  => OK: 3 entries, chain intact",
+      "The first entry must have prev \"\" and hash \"6b27e45ef5f580147e6680165b48aaf19c18212535edd31d650976ccafb3f5bc\", which is sha256_hex of the text: {\"id\":\"2026-01-05-001\",\"time\":\"09:30\",\"kind\":\"work\",\"client\":\"Test & Co\",\"task\":\"Café design\",\"minutes\":90,\"billable\":true,\"files\":[\"a.pdf\",\"b.pdf\"]}",
+      "The second entry's prev must equal the first entry's hash. The third (a new day) must link to the second.",
+      "Change the word Café to Cafe in the first day's file by hand, then ./kit log verify  => exit 1, stderr: BROKEN at 2026-01-05.json 2026-01-05-001: entry content was changed after it was written",
+      "Delete the second entry from the first day's file, then ./kit log verify => exit 1, BROKEN at 2026-01-06.json 2026-01-06-001: link to the previous entry is broken (entry removed or reordered?)",
+      "./kit log add task=x kind=weird => exit 1, stderr starts with: Error:",
+      "./kit log add kind=work => exit 1 (task is required)"
+    ]
+  }
+}

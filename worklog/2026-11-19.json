@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-19",
+  "entries": [
+    {
+      "id": "2026-11-19-001",
+      "time": "09:00",
+      "kind": "work",
+      "client": "Bloem & Co",
+      "task": "Reply about colour palette",
+      "skill": "draft-reply",
+      "tool": "claude-code",
+      "minutes": 20,
+      "outcome": "draft",
+      "sample": true,
+      "billable": true,
+      "prev": "ee4fe67bfa72808beb71370d055525579f43f4d19fee327a1d4632f406f6dd59",
+      "hash": "94d837dab480c35b81bd5e7d28d7570865a0d329375196b3260eb137674f37ad"
+    }
+  ]
+}

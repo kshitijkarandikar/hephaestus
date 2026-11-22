@@ -1,0 +1,6 @@
+number,date,client,description,amount_ex_vat_eur,vat_eur,total_eur,due_date,status,paid_date
+2026-009,2026-10-01,Acme Bikes,UX audit,1800.00,378.00,2178.00,2026-10-15,paid,2026-10-12
+2026-010,2026-10-20,Bloem & Co,Brand identity package (part 1),2250.00,472.50,2722.50,2026-11-03,unpaid,
+2026-011,2026-11-02,Kleur Kids,Design work 20 hours,1900.00,399.00,2299.00,2026-11-16,paid,2026-11-05
+2026-012,2026-11-10,Noord Studio,Workshop (half day),900.00,189.00,1089.00,2026-11-24,unpaid,
+2026-013,2026-11-18,Acme Bikes,Design work 12 hours,1140.00,239.40,1379.40,2026-12-02,unpaid,

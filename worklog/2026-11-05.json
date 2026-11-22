@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-05",
+  "entries": [
+    {
+      "id": "2026-11-05-001",
+      "time": "14:00",
+      "kind": "work",
+      "client": "Acme Bikes",
+      "task": "Homepage design round 1",
+      "tool": "claude-code",
+      "minutes": 300,
+      "outcome": "done",
+      "sample": true,
+      "billable": true,
+      "prev": "0cd5b57769c2e94efe0b232ea6833020894d782f553b475e6bb215a9734bfc37",
+      "hash": "658d5fd59a8519133906427091fb2030f361de8981332862f6f8faf4d463f841"
+    }
+  ]
+}

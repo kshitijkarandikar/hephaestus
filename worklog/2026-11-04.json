@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-04",
+  "entries": [
+    {
+      "id": "2026-11-04-001",
+      "time": "11:00",
+      "kind": "work",
+      "client": "Bloem & Co",
+      "task": "Logo round 1 and palette",
+      "tool": "claude-code",
+      "minutes": 270,
+      "outcome": "done",
+      "sample": true,
+      "billable": true,
+      "prev": "c1b23b9430cc8a41e5fa3c68f22d1be6e304493e6cffc8a54bf8e5ffdff2cd92",
+      "hash": "0cd5b57769c2e94efe0b232ea6833020894d782f553b475e6bb215a9734bfc37"
+    }
+  ]
+}

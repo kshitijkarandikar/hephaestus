@@ -1,0 +1,11 @@
+{
+  "description": "EXAMPLE. Rename this file to example.json to switch it on. Extensions can only ADD restrictions.",
+  "blocked_mcp_servers": ["drive"],
+  "command_deny": ["\\bpython3?\\b"],
+  "write_deny": ["context/clients.csv"],
+  "confidential_terms": ["Project Falcon", "NDA"],
+  "actions": { "create_calendar_event": "deny" },
+  "scan_patterns": {
+    "kvk_number": { "severity": "info", "regex": "KvK\\D{0,5}\\d{8}" }
+  }
+}

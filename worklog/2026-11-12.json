@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-12",
+  "entries": [
+    {
+      "id": "2026-11-12-001",
+      "time": "13:00",
+      "kind": "work",
+      "client": "Acme Bikes",
+      "task": "Changes after feedback",
+      "tool": "claude-code",
+      "minutes": 180,
+      "outcome": "done",
+      "sample": true,
+      "billable": true,
+      "prev": "3ea190e7e0c926286311f973b44ae0752bd5cca6cb2add9cb8a3db2fc7521b2a",
+      "hash": "357467de6d691736c844c3e43797d59dd1bd9f7eb30aee7543baae91ae3ce3eb"
+    }
+  ]
+}

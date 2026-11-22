@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-18",
+  "entries": [
+    {
+      "id": "2026-11-18-001",
+      "time": "15:30",
+      "kind": "work",
+      "client": "Acme Bikes",
+      "task": "Invoice 2026-013",
+      "skill": "invoice-from-notes",
+      "tool": "claude-code",
+      "minutes": 10,
+      "files": [
+        "outputs/invoice-2026-013-acme-bikes.pdf"
+      ],
+      "outcome": "done",
+      "sample": true,
+      "billable": true,
+      "prev": "b43998b921b1f20897241defa0b5c2f1a3ecac3bfa2ea5341b45cb6c1f6dc8a2",
+      "hash": "ee4fe67bfa72808beb71370d055525579f43f4d19fee327a1d4632f406f6dd59"
+    }
+  ]
+}

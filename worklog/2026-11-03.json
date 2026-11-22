@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-03",
+  "entries": [
+    {
+      "id": "2026-11-03-001",
+      "time": "09:30",
+      "kind": "work",
+      "client": "Acme Bikes",
+      "task": "Homepage wireframes",
+      "tool": "claude-code",
+      "minutes": 240,
+      "outcome": "done",
+      "sample": true,
+      "billable": true,
+      "prev": "",
+      "hash": "c1b23b9430cc8a41e5fa3c68f22d1be6e304493e6cffc8a54bf8e5ffdff2cd92"
+    }
+  ]
+}

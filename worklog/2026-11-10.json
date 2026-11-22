@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-10",
+  "entries": [
+    {
+      "id": "2026-11-10-001",
+      "time": "10:15",
+      "kind": "work",
+      "client": "Noord Studio",
+      "task": "Workshop prep",
+      "skill": "next-steps",
+      "tool": "claude-code",
+      "minutes": 90,
+      "outcome": "done",
+      "sample": true,
+      "billable": true,
+      "prev": "658d5fd59a8519133906427091fb2030f361de8981332862f6f8faf4d463f841",
+      "hash": "3ea190e7e0c926286311f973b44ae0752bd5cca6cb2add9cb8a3db2fc7521b2a"
+    }
+  ]
+}

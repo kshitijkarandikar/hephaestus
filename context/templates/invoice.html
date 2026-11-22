@@ -1,0 +1,35 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@page { size: A4; margin: 16mm; }
+* { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10.5pt; color: #222; }
+h1 { color: #2b5fd9; margin: 0 0 4mm; }
+.top { display: flex; justify-content: space-between; margin-bottom: 10mm; }
+table { width: 100%; border-collapse: collapse; margin: 6mm 0; }
+th { text-align: left; border-bottom: 2px solid #2b5fd9; padding: 2mm; }
+td { padding: 2mm; border-bottom: 1px solid #ddd; }
+td.num, th.num { text-align: right; }
+.totals { margin-left: auto; width: 60mm; break-inside: avoid; }
+.totals div { display: flex; justify-content: space-between; padding: 1mm 0; }
+.total { font-weight: bold; border-top: 2px solid #222; }
+.pay { margin-top: 10mm; padding: 4mm; background: #eef3ff; break-inside: avoid; }
+</style></head><body>
+<!-- Reference layout. Copy this structure, replace every value. -->
+<div class="top">
+  <div><h1>Invoice</h1>No. {{number}}<br>Date: {{date}}<br>Due: {{due_date}}</div>
+  <div>{{business name, address, KvK, BTW number}}</div>
+</div>
+<div><strong>{{client}}</strong><br>{{contact}}<br>{{address}}</div>
+<table>
+  <tr><th>Description</th><th class="num">Qty</th><th class="num">Rate</th><th class="num">Amount</th></tr>
+  <!-- one row per line -->
+  <tr><td>{{description}}</td><td class="num">{{qty}}</td><td class="num">€ {{rate}}</td><td class="num">€ {{amount}}</td></tr>
+</table>
+<div class="totals">
+  <div><span>Subtotal</span><span>€ {{subtotal}}</span></div>
+  <div><span>BTW 21%</span><span>€ {{vat}}</span></div>
+  <div class="total"><span>Total</span><span>€ {{total}}</span></div>
+</div>
+<div class="pay">Please pay € {{total}} before {{due_date}} to {{IBAN}}, reference {{number}}.</div>
+</body></html>

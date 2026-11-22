@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-14",
+  "entries": [
+    {
+      "id": "2026-11-14-001",
+      "time": "16:00",
+      "kind": "work",
+      "client": "Acme Bikes",
+      "task": "Call with Lotte",
+      "tool": "claude-code",
+      "minutes": 60,
+      "outcome": "done",
+      "notes": "consulting rate",
+      "sample": true,
+      "billable": true,
+      "prev": "357467de6d691736c844c3e43797d59dd1bd9f7eb30aee7543baae91ae3ce3eb",
+      "hash": "b43998b921b1f20897241defa0b5c2f1a3ecac3bfa2ea5341b45cb6c1f6dc8a2"
+    }
+  ]
+}

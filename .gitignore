@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+.env*
+secrets/
+*.pem
+*.key
+outputs/*
+!outputs/.gitkeep
