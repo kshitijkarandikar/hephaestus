@@ -25,8 +25,9 @@ Print an HTML file to PDF with the Chrome, Edge or Brave browser on this laptop.
   - Linux: `/usr/bin/google-chrome`, `/usr/bin/chromium`, `/usr/bin/chromium-browser`, `/usr/bin/microsoft-edge`
 - None found: `No Chrome or Edge found. Open the HTML file and use Print, Save as PDF.` to stderr, exit 2.
 - Run the browser with these arguments, with a time limit of 45 seconds and its output discarded:
-  `--headless=new --disable-gpu --no-pdf-header-footer --user-data-dir=<temp folder>/kit-pdf-profile --print-to-pdf=<pdf path> <file:// URL of the html file>`
-- Success: print the absolute PDF path, exit 0. If no PDF file exists afterwards: `No PDF was made.` exit 1.
+  `--headless=new --disable-gpu --no-pdf-header-footer --user-data-dir=<a new empty temporary folder, deleted afterwards> --print-to-pdf=<pdf path> <file:// URL of the html file>`
+- If no PDF exists afterwards, run it once more with two extra arguments, `--no-sandbox` and `--blink-settings=scriptEnabled=false` (some AI tools already sandbox the browser, and then it cannot start its own sandbox; scripts stay off because the file may hold fetched text). When that second run makes the PDF, print to stderr `Note: Chrome's own sandbox could not start here (your AI tool already sandboxes it), so the PDF was made without it and with scripts off.`
+- Success: print the absolute PDF path, exit 0. If still no PDF file: stderr `No PDF was made.` followed by ` Browser said: <last line of the browser's error output, cut to 200 characters>` when there is one, then ` Try again in a normal terminal window, or open the HTML file and use Print, Save as PDF.`, exit 1.
 
 ## `kit doctor`
 

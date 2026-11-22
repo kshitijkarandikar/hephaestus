@@ -108,7 +108,7 @@ def load_client():
             c = json.load(f)["installed"]
         return c["client_id"], c["client_secret"]
     except (OSError, ValueError, KeyError, TypeError):
-        raise Fail("Put the OAuth client file at secrets/google-client.json. See integrations/google-kit.md")
+        raise Fail("No Google client file yet. Ask the user for the .json file they downloaded from Google, then run: kit google client file=<path>. See integrations/google-kit.md")
 
 
 # ---------------------------------------------------------------- http

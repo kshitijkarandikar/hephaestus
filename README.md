@@ -142,6 +142,7 @@ A skill is `skills/<name>/SKILL.md`: a name, a one-line description (this decide
 
 | Skill | Does | Needs |
 |---|---|---|
+| `find-emails` | Find a kind of email (orders, invoices, one client), exclude noise, list or total it | Google connected |
 | `summarize-thread` | Email thread, meeting notes or transcript into decisions, promises and open questions | nothing |
 | `draft-reply` | Email draft in your voice. Never sends | nothing. Can save a Gmail draft if Gmail is connected |
 | `next-steps` | Action list with owners and dates that fit your working days | nothing. Can propose calendar events if Calendar is connected |
@@ -360,6 +361,7 @@ This folder is a git repo (branch `main`). Commit when you want a snapshot. The 
 | Python 3 not found | Mac: `xcode-select --install`. Windows: `winget install Python.Python.3.12`. Or download from python.org. Restart the terminal |
 | `./kit: command not found` | You are not in the kit folder. Type `cd business-agent-kit` |
 | PDF says no browser found | Install Chrome or Edge, or open the HTML file and use Print, Save as PDF |
+| PDF says `No PDF was made` | Read the `Browser said:` part. In a sandboxed AI tool the kit retries once without Chrome's own sandbox and with scripts off. If it still fails, run `./kit pdf <file>` in a normal terminal |
 | A command or file write is blocked | Read the reason. Run `./kit check command "<cmd>"` to see which rule. Rephrase the task. Edit `rules.json` by hand only if you understand the risk |
 | A worklog entry was blocked because the text contains a word like "curl" | Rephrase the task text. The rules read the whole command line |
 | `./kit log verify` says BROKEN | Someone changed history. Look at `git diff worklog`, restore with `git checkout worklog` |

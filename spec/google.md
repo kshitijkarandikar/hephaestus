@@ -41,7 +41,7 @@ If the program cannot open the local listener (step 3), for example inside an AI
 
 In offline test mode, `auth` refuses: `Not available in test mode.` exit 1. A level other than `read` or `draft`: error, exit 1.
 
-1. Read `secrets/google-client.json`. Missing: `Put the OAuth client file at secrets/google-client.json. See integrations/google-kit.md`, exit 1. The file is the JSON downloaded from Google: the values are in `installed.client_id` and `installed.client_secret`.
+1. Read `secrets/google-client.json`. Missing: `No Google client file yet. Ask the user for the .json file they downloaded from Google, then run: kit google client file=<path>. See integrations/google-kit.md`, exit 1. The file is the JSON downloaded from Google: the values are in `installed.client_id` and `installed.client_secret`.
 2. Make a random `state` and a PKCE `code_verifier` (43 to 128 URL-safe characters). `code_challenge` = base64url (no padding) of sha256 of the verifier.
 3. Start a tiny web server on `127.0.0.1` on a free port. Open this URL in the user's browser (print it too, in case it does not open): `https://accounts.google.com/o/oauth2/v2/auth` with query `client_id`, `redirect_uri=http://127.0.0.1:<port>`, `response_type=code`, `scope=<space separated scopes>`, `code_challenge`, `code_challenge_method=S256`, `state`, `access_type=offline`, `prompt=consent`.
 4. Wait up to 3 minutes for the browser to call back with `code` and `state`. State differs or an `error` parameter: stop with a plain message. Answer the browser with a short page: `Done. You can close this tab and go back to the terminal.`

@@ -875,16 +875,27 @@ def cmd_pdf(args):
     browser = find_browser()
     if not browser:
         fail("No Chrome or Edge found. Open the HTML file and use Print, Save as PDF.", 2)
-    prof = os.path.join(tempfile.gettempdir(), "kit-pdf-profile")
+    prof = tempfile.mkdtemp(prefix="kit-pdf-")
     url = "file://" + os.path.realpath(src) if not sys.platform.startswith("win") else "file:///" + os.path.realpath(src).replace("\\", "/")
-    try:
-        subprocess.run([browser, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
-                        "--user-data-dir=" + prof, "--print-to-pdf=" + pdf, url],
-                       timeout=45, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    except subprocess.TimeoutExpired:
-        pass
+    base = [browser, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
+            "--user-data-dir=" + prof, "--print-to-pdf=" + pdf]
+    err = ""
+    for extra in ([], ["--no-sandbox", "--blink-settings=scriptEnabled=false"]):
+        try:
+            r = subprocess.run(base[:1] + extra + base[1:] + [url], timeout=45,
+                               stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+            err = r.stderr.decode("utf-8", "replace").strip().splitlines()[-1:] or [""]
+            err = err[0][:200]
+        except subprocess.TimeoutExpired:
+            err = "the browser took too long"
+        if os.path.exists(pdf):
+            if extra:
+                sys.stderr.write("Note: Chrome's own sandbox could not start here (your AI tool already sandboxes it), so the PDF was made without it and with scripts off.\n")
+            break
+    shutil.rmtree(prof, ignore_errors=True)
     if not os.path.exists(pdf):
-        fail("No PDF was made.")
+        fail("No PDF was made." + (" Browser said: " + err if err else "") +
+             " Try again in a normal terminal window, or open the HTML file and use Print, Save as PDF.")
     print(pdf)
     return 0
 

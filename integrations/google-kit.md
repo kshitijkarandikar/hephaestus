@@ -151,7 +151,7 @@ Also remove the app at https://myaccount.google.com/permissions, and delete the 
 
 | What you see | What to do |
 |---|---|
-| `Put the OAuth client file at secrets/google-client.json` | Step 5 is not done. Run `./kit google client file=<the downloaded file>` |
+| `No Google client file yet` | Step 5 is not done. Run `./kit google client file=<the downloaded file>` |
 | `Not signed in` | Say **connect Google** to the AI, or run `./kit google auth` |
 | `Sign-in expired` | Run `./kit google auth` again (Testing mode lasts 7 days) |
 | Browser says `Access blocked` or `Error 403: access_denied` | You are not on the test users list. Step 3, add your account |

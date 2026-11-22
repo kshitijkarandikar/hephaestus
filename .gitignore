@@ -10,3 +10,6 @@ outputs/*
 __pycache__/
 *.pyc
 client_secret*.json
+# private mail and files fetched from Google
+inbox/thread-*.txt
+inbox/drive-*

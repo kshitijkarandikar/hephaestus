@@ -9,6 +9,7 @@ description: Draft an email reply or follow-up to a client in the freelancer's v
 What the email is for, plus the thread or notes (`inbox/` or pasted). Client from `context/clients.csv`.
 
 ## Steps
+0. If the user wants this saved as a Gmail draft, ask now for the recipient's email address (check `context/clients.csv` first). Gmail cannot make a draft without one. If they only want text to copy, no address is needed. Say which kind you are making: a copy-ready text, or a Gmail draft.
 1. Read `context/brand-voice.md` and the client's row in `context/clients.csv` (the notes column matters).
 2. Read the thread or notes. Find: what they asked, what I promised, what I need.
 3. Write the draft:
