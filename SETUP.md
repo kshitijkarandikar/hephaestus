@@ -139,6 +139,6 @@ The AI checks in this order: sign-in succeeds, then `./kit google status` says `
 | The AI says a kit file was changed ("CHANGED") | Type `git checkout .` in the kit folder, then start again |
 | `./kit: command not found` | You are not in the kit folder. Type `cd business-agent-kit` |
 | Google sign-in says the file is missing | Tell the AI where the downloaded file is. It runs `./kit google client file=...` |
-| `Error: PermissionError`, a sandbox message, or `Could not reach Google` | Codex: click **Approve** when it asks to run a Google command outside the sandbox. It asks every time. If you cannot approve, open a normal terminal in the kit folder and run `./kit google auth` there (Claude Code: type `! ./kit google auth`). Then go back to the AI and say "done" |
+| `Error: PermissionError`, a sandbox message, or `Could not reach Google` | Codex or another sandboxed tool: click **Approve** when it asks to run a Google command outside the sandbox. It asks every time. If you cannot approve, open a normal terminal in the kit folder and run `./kit google auth` there (Claude Code: type `! ./kit google auth`). Then go back to the AI and say "done" |
 | Google stopped working after a week | Test mode signs you out after 7 days. Say "connect Google" again |
 | Something else | Run `./kit doctor` and read its `[FAIL]` and `[warn]` lines. Send them to the person running the workshop |

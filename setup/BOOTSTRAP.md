@@ -50,7 +50,7 @@ Never build a Google tool. `./kit google` already exists. Follow `integrations/g
 
 Drafting access (`level=draft`) is a separate sign-in. Offer it only when the user wants drafts: `./kit google auth level=draft`.
 
-**Codex:** run every `./kit google` command (also `status` and `client`) with a request for approval to run outside the sandbox, every time, starting with the first call. Never assume an earlier approval still counts. Tell the user once: "Google needs the internet, so Codex will ask you to approve each Google command. Click Approve." Do not try inside the sandbox first.
+**Sandboxed tools (Codex, or any tool that runs your commands in a sandbox without internet):** run every `./kit google` command (also `status` and `client`) with a request for approval to run outside the sandbox, every time, starting with the first call. Never assume an earlier approval still counts. Tell the user once: "Google needs the internet, so I will ask you to approve each Google command. Click Approve." Do not try inside the sandbox first. Tools that run commands normally (Claude Code) skip this.
 
 **If `auth` fails with `PermissionError`, `Error:` or "sandbox" anyway:** your AI tool is blocking the local sign-in listener or the network. Do not guess about the client file and do not touch `secrets/`. Tell the user to run the sign-in in a normal terminal window, outside this AI tool: `./kit google auth` in the kit folder (Claude Code: type `! ./kit google auth`). Then run `./kit google status` yourself.
 
