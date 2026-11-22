@@ -5,7 +5,7 @@
 - `kit` (Mac, Linux): a short shell script. Runs the generated program in `core/` with the chosen runtime and passes all arguments, standard input and the exit code through. Mark it executable.
 - `kit.cmd` (Windows): the same for cmd and PowerShell.
 
-The launcher holds the exact runtime command and entry file directly (written by the assistant at build time). It does not need to read `setup/runtime.json`, which is there for humans and for `kit doctor`. It must not search the PATH for another runtime. If the runtime command contains spaces, quote it.
+The shipped launchers (`kit`, `kit.cmd`) look for `python3`, then `python` (Windows also `py -3`), and run `core/kit.py`. If no Python 3 is found they print the install command and exit 1. A port to another language replaces the launchers and `core/`.
 
 Users and the assistant always call `./kit <command> ...` (on Windows `kit <command> ...`).
 

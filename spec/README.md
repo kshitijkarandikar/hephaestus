@@ -1,8 +1,8 @@
 # Specs: the kit's tools, described in plain steps
 
-This folder describes every tool the kit needs. It contains **no code**. During setup, your AI assistant reads these specs, checks which language your laptop has (Node.js, Python or another), writes the tools in that language, and proves they work by passing the tests in `conformance.json` and `../security/tests/`.
+This folder describes every tool the kit has, in plain steps, with the tests they must pass. The shipped program is `../core/kit.py` (Python 3, standard library only). These specs are the source of truth: they say what the code must do, and the tests in `conformance.json`, `google-conformance.json` and `../security/tests/` prove it. Run them all with `python3 ../maintainer/run-tests.py`.
 
-Why this way: the kit works on any laptop and with any AI tool, nothing is pre-built for one language, and you see how an agent builds its own tools.
+Why keep specs: you can rewrite the tools in another language (an AI can do it from these specs and the tests), and anyone can read what the tools promise without reading code.
 
 ## Files
 
@@ -16,7 +16,7 @@ Why this way: the kit works on any laptop and with any AI tool, nothing is pre-b
 | `conformance.json` | Commands with expected results. All must pass |
 | `google-conformance.json`, `google-fixtures/` | Offline tests for `kit google`, with canned Google answers |
 
-Setup instructions for the assistant: `../setup/BOOTSTRAP.md`.
+First run checklist for the assistant: `../setup/BOOTSTRAP.md`.
 
 ## Rules for whoever writes the code (the assistant, or you)
 

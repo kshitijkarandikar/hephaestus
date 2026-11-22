@@ -5,9 +5,9 @@
 #   ./start.sh pack       make outputs/pack.md for a chat window (no AI tool needed)
 cd "$(dirname "$0")" || exit 1
 
-PROMPT_SETUP="Read setup/BOOTSTRAP.md and set up this kit."
+PROMPT_SETUP="Read setup/BOOTSTRAP.md and do the first run of this kit."
 PROMPT_NORMAL="What can you do in this folder?"
-if [ -f setup/runtime.json ]; then PROMPT="$PROMPT_NORMAL"; else PROMPT="$PROMPT_SETUP"; fi
+if grep -qs "First run, kit is healthy" worklog/*.json; then PROMPT="$PROMPT_NORMAL"; else PROMPT="$PROMPT_SETUP"; fi
 
 if [ "$1" = "pack" ]; then
   mkdir -p outputs
@@ -27,7 +27,7 @@ for t in claude codex gemini; do command -v "$t" >/dev/null 2>&1 && tools="$tool
 launch() {
   echo
   echo "Starting $1 in this folder."
-  [ -f setup/runtime.json ] || echo "First run: the AI will build the kit's tools. You will be asked a few questions."
+  [ "$PROMPT" = "$PROMPT_SETUP" ] && echo "First run: the AI checks the kit (about a minute)."
   echo "If it does not start by itself, type:  $PROMPT"
   echo
   case "$1" in

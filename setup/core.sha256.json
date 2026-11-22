@@ -1,0 +1,7 @@
+{
+  "core/google.py": "a8299f7a1c0352d8dfedfbfc67fd5f94dc72a27d6476c7c4d9dad864071fe7a5",
+  "core/kit.py": "e3cca643f8f62f96475069ffabe881d507f014fe84eb74855b17d738d106d6fb",
+  "kit": "575dc8bcd0d0b319a6be651ab933c5b38ab8721628e7c2ff495ce6f475ed4ba5",
+  "kit.cmd": "825b96b60696d4d02fbd140ecf730c4c9566c5a1702a1b7ee32707b8bc7a276b",
+  "security/rules.json": "44d04c01bc53962fcb58a33a0f26d130d335f65dbeee2c9c661716b9f38c4a54"
+}

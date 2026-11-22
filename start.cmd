@@ -5,8 +5,10 @@ rem   start.cmd claude     start a specific tool (also: codex, gemini)
 rem   start.cmd pack       make outputs\pack.md for a chat window (no AI tool needed)
 cd /d "%~dp0"
 
-set "PROMPT=Read setup/BOOTSTRAP.md and set up this kit."
-if exist setup\runtime.json set "PROMPT=What can you do in this folder?"
+set "PROMPT=Read setup/BOOTSTRAP.md and do the first run of this kit."
+findstr /s /m /c:"First run, kit is healthy" worklog\*.json >nul 2>nul
+if not errorlevel 1 set "PROMPT=What can you do in this folder?"
+if errorlevel 1 set "FIRSTRUN=1"
 
 if /i "%~1"=="pack" goto pack
 set "CHOICE=%~1"
@@ -29,7 +31,7 @@ if errorlevel 1 (
 )
 echo.
 echo Starting %CHOICE% in this folder.
-if not exist setup\runtime.json echo First run: the AI will build the kit's tools. You will be asked a few questions.
+if defined FIRSTRUN echo First run: the AI checks the kit, about a minute.
 echo If it does not start by itself, type:  %PROMPT%
 echo.
 if /i "%CHOICE%"=="gemini" (gemini) else (%CHOICE% "%PROMPT%")

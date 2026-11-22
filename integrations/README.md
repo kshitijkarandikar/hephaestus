@@ -2,7 +2,7 @@
 
 ## Google (Gmail, Calendar, Drive)
 
-Use **`google-kit.md`**. It sets up `kit google`, the kit's own tool that talks to Google's plain REST APIs with OAuth. It does not use MCP connectors, because those are not reliable for reading and writing email yet. It works with any AI tool, is tested offline, and keeps the kit's safety rules.
+Use **`google-kit.md`**. It connects `kit google`, the kit's own tool (already in the kit, nothing to build) that talks to Google's plain REST APIs with OAuth. It does not use MCP connectors, because those are not reliable for reading and writing email yet. It works with any AI tool, is tested offline, and keeps the kit's safety rules.
 
 - Reads: Gmail threads, calendar events and free time, Drive files.
 - Writes (level `draft`, always asks you first): Gmail drafts, calendar events without guests, Drive uploads of files you made.

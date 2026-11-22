@@ -5,7 +5,7 @@
 | `policy.md` | Human rules. Read this first |
 | `rules.json` | Core rules in machine form: paths, commands, connector tools, scan patterns |
 | `extensions/*.json` | Your own extra rules. Can only **add** restrictions |
-| `../spec/security.md` | How the rule engine, `./kit check` and the hook must work. Your AI builds the code from it during setup |
+| `../spec/security.md` | How the rule engine, `./kit check` and the hook must work. The code is `../core/kit.py` |
 | `tests/*.json` | Test cases. `selftest` runs all of them |
 
 ## Try it

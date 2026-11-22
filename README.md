@@ -4,7 +4,7 @@ An AI agent here is **a folder of plain text files**. No app, no server, no acco
 
 **New here? Open `SETUP.md` and follow the steps one by one.**
 
-There is **no pre-built code** in this kit, not in Node.js and not in Python. The kit ships plain-English specs. On first start, your AI assistant checks which language your laptop has, writes the tools from the specs, and proves they work with tests. You watch an agent build its own tools. That is the lesson.
+The kit ships with its tools already built, tested and sealed (one small Python program in `core/`). Nobody has to write or review code. Your AI assistant only checks that the kit is healthy and then starts working. The only thing you install is Python 3, and the assistant tells you how if it is missing.
 
 ## Contents
 
@@ -33,8 +33,9 @@ There is **no pre-built code** in this kit, not in Node.js and not in Python. Th
 | Instructions | `AGENTS.md` | Who the assistant is and its rules. `CLAUDE.md` and `GEMINI.md` just point to it |
 | Context | `context/` | What it knows: business, clients, rates, invoices, brand voice |
 | Skills | `skills/` | One recipe per repeated task, written in plain English |
-| Specs | `spec/` | Plain-English description of the tools (work log, security, calculator, PDF). No code |
-| Setup | `setup/BOOTSTRAP.md` | Steps the assistant follows to build the tools from the specs |
+| Tools | `core/` | The `kit` program: work log, security checks, calculator, PDF, Google. Built, tested, sealed |
+| Specs | `spec/` | Plain-English description of the tools, and the tests they pass. For people who change the tools |
+| First run | `setup/BOOTSTRAP.md` | Short checklist the assistant follows on the first start |
 | Input | `inbox/` | Raw material: notes, email threads |
 | Output | `outputs/` | Everything the assistant makes: drafts, invoices, PDFs |
 | Work log | `worklog/` | One JSON file per day: what was done, when, for whom, how long |
@@ -50,7 +51,7 @@ You can read and change every file. That is the whole trick.
 ## What you need
 
 - An AI tool that works in a folder: **Claude Code** (tested path), ChatGPT Codex, Gemini CLI or Antigravity. A chat window also works in a reduced way (see below).
-- **One language runtime on your laptop:** Node.js 18 or newer, or Python 3.8 or newer. You do not need to install it first. If you have neither, the assistant asks which one you want and helps you install it.
+- **Python 3.9 or newer.** Macs get it with a one-time `xcode-select --install`. You do not need to install it first: if it is missing, the assistant tells you the exact command.
 - **Chrome, Edge or Brave** for PDF output.
 - A terminal. Mac and Linux are the main path. Windows has a `start.cmd` that is untested.
 
@@ -65,28 +66,24 @@ cd business-agent-kit
 start.cmd           # Windows
 ```
 
-`start.sh` is a short shell script. It finds your AI tool (Claude Code, Codex or Gemini CLI), starts it in this folder, and, on the first run, tells it to set up the kit. No tool installed? It prints the install links.
+`start.sh` is a short shell script. It finds your AI tool (Claude Code, Codex or Gemini CLI), starts it in this folder, and, on the first run, tells it to do a quick health check. No tool installed? It prints the install links.
 
 `start.sh` is for **you**, in a normal terminal. Do not ask an AI to run it: it would try to start a second AI tool inside the first one and fail (the sandbox blocks it).
 
 Variants:
 - `./start.sh claude` starts a specific tool (`codex`, `gemini` also work). Windows: `start.cmd claude`.
 - `./start.sh pack` builds `outputs/pack.md` for a chat window. No AI tool needed.
-- Antigravity or another desktop app: open the folder as a project, then type: `Read setup/BOOTSTRAP.md and set up this kit.`
+- Antigravity or another desktop app: open the folder as a project, then type: `Read setup/BOOTSTRAP.md and do the first run of this kit.`
 
 ## What happens on first start
 
 The assistant follows `setup/BOOTSTRAP.md`:
 
-1. **Reads** the specs in `spec/`.
-2. **Checks** for Node.js and Python. Both found: it asks which you prefer. One found: it uses it. None: it asks you to choose one and offers the install command.
-3. **Writes** the `kit` program in `core/`, plus the launchers `kit` (Mac, Linux) and `kit.cmd` (Windows).
-4. **Tests** it with `./kit check selftest` and every case in `spec/conformance.json`. It fixes its own code until all pass. It may not change the specs or tests to cheat.
-5. **Asks you to review** the security code, and waits for your yes.
-6. **Locks it in:** it asks **you** to run `./kit check seal` yourself, which records a checksum of the core files (the assistant is not allowed to). Then, for Claude Code, it adds the security hook and a deny list to `.claude/settings.json`.
-7. Tells you to restart the tool. After that you are ready.
+1. **Checks** the kit with `./kit doctor`: Python is there, the security rules pass their 74 tests, the work log chain is intact, and no protected file was changed.
+2. **Fixes what it can.** No Python: it gives you the install command for your system. A changed protected file: it tells you to run `git checkout .`.
+3. **Says hello** and logs the first run.
 
-It takes a few minutes and uses some of your free AI quota. Setup is done once. If you want to switch language later, see `setup/BOOTSTRAP.md` (section "To rebuild later").
+It takes about a minute. Nothing is built, and you review no code. For Claude Code the security hook and deny list are already in `.claude/settings.json`, so they are active from the first start.
 
 Then ask: **"What can you do in this folder?"** and try:
 - "Summarize `inbox/meeting-notes-noord-studio.txt`."
@@ -99,7 +96,7 @@ Check the results in `outputs/` and the log with `./kit log list`.
 
 ```
 SETUP.md               start here: step-by-step setup for participants
-start.sh, start.cmd    one-command launcher (shell only, no Node or Python)
+start.sh, start.cmd    one-command launcher (a short shell script)
 AGENTS.md              rules for the assistant (read first, every session)
 CLAUDE.md, GEMINI.md   one line each: point to AGENTS.md
 .claude/settings.json  Claude Code: deny list, and (after setup) the security hook
@@ -119,11 +116,11 @@ spec/                  the tools, described in plain steps (no code)
   google-conformance.json, google-fixtures/   offline tests for the Google tool
 setup/
   BOOTSTRAP.md         what the assistant does on first start
-  runtime.json         (created by setup) which language was used
-  core.sha256.json     (created by setup) checksum seal of the core files
+  core.sha256.json     checksum seal of the core files (made by the kit owner)
 
-core/                  (created by setup) the generated program, in your language
-kit, kit.cmd           (created by setup) the launchers
+core/                  the program: kit.py (everything) and google.py (Google tool)
+kit, kit.cmd           the launchers (they run core/kit.py with Python 3)
+maintainer/            run-tests.py: runs all test suites (for the kit owner)
 
 worklog/               one JSON file per day (sample entries included)
 security/
@@ -215,7 +212,7 @@ All tools are one command, `./kit` (Windows: `kit`). Created during setup. Full 
 - **The date and time come from the computer clock.**
 - **The assistant cannot write into `worklog/` directly.** Only through `./kit log`. In Claude Code the hook enforces this.
 - In Claude Code, the security hook also logs every command, file write and connector call it checks, including blocked ones. This works even if the assistant forgets to log.
-- **Same log in every language.** The hash rules are exact, so the log made by a Node build and a Python build is identical. The 8 sample entries are the proof: a correct build verifies them (`OK: 8 entries, chain intact`).
+- **Exact hash rules.** The hash rules are written down precisely (`spec/worklog.md`), so any correct tool, in any language, makes the same log. The 8 sample entries are the proof: `./kit log verify` says `OK: 8 entries, chain intact`.
 - The entries in `worklog/` now are **sample data** (flagged `sample`). Delete all `worklog/*.json` when you start with your own business. Delete them all, not one by one, or `verify` fails. After that the sample check in the tests no longer applies.
 
 ## Security
@@ -240,7 +237,7 @@ Full text: `security/policy.md`. How to extend: `security/README.md`. How it mus
 - **Commands:** network tools, `sudo`, `rm -rf`, `git push`, piping to a shell, reading secrets, and any use of `KIT_` test variables are denied. The `kit` commands, `date`, `ls` and a few more are allowed. Running your own `python` or `node` one-liners, installs and file moves ask. Chained commands (`a; b`, pipes) are never auto-allowed.
 - **Connector tools (Gmail, Calendar, Drive):** judged by tool name. `send`, `delete`, `share` are denied. `create`, `draft`, `update`, `upload` ask. `get`, `list`, `search`, `read` are allowed. Unknown names ask.
 - **Scan** (`./kit check scan <file>`): finds API keys, private keys, passwords, card numbers, IBAN, BSN, prompt injection phrases and any confidential terms you list.
-- **Integrity seal:** setup records a checksum of the core files. If anything in `core/`, `kit`, `kit.cmd` or `rules.json` changes, the hook blocks everything until the owner reviews and runs `./kit check seal`. This stops the assistant from quietly swapping its own safety code.
+- **Integrity seal:** setup records a checksum of the core files. If anything in `core/`, `kit`, `kit.cmd` or `rules.json` changes, the hook blocks everything. The kit owner re-seals after reviewing a change (`./kit check seal`). Users never do this. It stops the assistant, or anyone, from quietly swapping the safety code.
 
 ### Where it is enforced
 
@@ -328,7 +325,7 @@ Money and tax: the assistant drafts and calculates with the calculator. Your acc
 
 **Make a new skill:** say "make a skill" and answer up to 5 questions. `skill-builder` writes it into `skills/`, tests it and fixes it once. Rule of thumb: if you did a task twice, make it a skill. Ideas are in `workshop/menu-of-skills.md`.
 
-**Make a new tool:** a skill that needs exact work can call a small tool. Write it as a spec in `spec/` (plain steps, inputs, outputs, error messages, a few test cases), then ask the assistant to build it into `core/`. Then run `./kit check seal` after you have reviewed it.
+**Change or add a tool (for the kit owner):** edit `core/kit.py`, update the spec in `spec/` and its tests, run `python3 maintainer/run-tests.py` until it says `TOTAL FAILURES: 0`, review the change yourself, then run `./kit check seal` in a normal terminal and commit. Do not ask the assistant to change `core/`: it is not allowed to.
 
 **Level up later:**
 - Memory: tell the assistant to read the last few days of `worklog/` at the start.
@@ -340,7 +337,7 @@ Money and tax: the assistant drafts and calculates with the calculator. Your acc
 
 ## Git
 
-This folder is a git repo (branch `main`). Commit when you want a snapshot. The commit history is a second audit trail and backs up the work log's hash chain. `outputs/`, `.env*`, keys and `secrets/` are ignored. The work log, the security rules and the generated `core/` are tracked, so a change to the generated code shows up in `git diff`. The log holds client names, so keep the repo private. Do not push it anywhere you would not show a client list. The assistant is not allowed to push, and asks before it commits.
+This folder is a git repo (branch `main`). Commit when you want a snapshot. The commit history is a second audit trail and backs up the work log's hash chain. `outputs/`, `.env*`, keys and `secrets/` are ignored. The work log, the security rules and `core/` are tracked, so a change to the code shows up in `git diff`. The log holds client names, so keep the repo private. Do not push it anywhere you would not show a client list. The assistant is not allowed to push, and asks before it commits.
 
 ## Workshop files
 
@@ -356,24 +353,24 @@ This folder is a git repo (branch `main`). Commit when you want a snapshot. The 
 | Problem | Try |
 |---|---|
 | The tool ignores the folder rules | Say "Read AGENTS.md first". Note which tool did not load it |
-| Asked the AI to "run the start script" and it failed (daemon folder, sandbox) | Run `./start.sh` yourself in a normal terminal. Or, inside an AI session, paste: `Read setup/BOOTSTRAP.md and set up this kit.` |
+| Asked the AI to "run the start script" and it failed (daemon folder, sandbox) | Run `./start.sh` yourself in a normal terminal. Or, inside an AI session, paste: `Read setup/BOOTSTRAP.md and do the first run of this kit.` |
 | `./start.sh`: permission denied | Run `chmod +x start.sh`, or `bash start.sh` |
-| Setup keeps failing a test | Read the failing case. Ask the assistant to fix the code, not the tests. If it fails after 5 rounds, switch to a stronger AI model and run setup again |
-| Neither Node.js nor Python found | Install one: `brew install node` or `brew install python` (Mac), `winget install OpenJS.NodeJS.LTS` or `winget install Python.Python.3.12` (Windows), or download from nodejs.org or python.org. Restart the terminal |
-| `./kit: command not found` or no `core/` | Setup has not run. Start the tool with `./start.sh` and let it set up |
+| `./kit doctor` shows `FAIL` | Read the line. Send it to the person running the workshop |
+| Python 3 not found | Mac: `xcode-select --install`. Windows: `winget install Python.Python.3.12`. Or download from python.org. Restart the terminal |
+| `./kit: command not found` | You are not in the kit folder. Type `cd business-agent-kit` |
 | PDF says no browser found | Install Chrome or Edge, or open the HTML file and use Print, Save as PDF |
 | A command or file write is blocked | Read the reason. Run `./kit check command "<cmd>"` to see which rule. Rephrase the task. Edit `rules.json` by hand only if you understand the risk |
 | A worklog entry was blocked because the text contains a word like "curl" | Rephrase the task text. The rules read the whole command line |
 | `./kit log verify` says BROKEN | Someone changed history. Look at `git diff worklog`, restore with `git checkout worklog` |
-| The hook blocks everything and says "Security core was changed" | Something in `core/`, `kit`, `kit.cmd` or `rules.json` differs from the seal. Look at `git diff`. If you trust the change, run `./kit check seal` in a normal terminal |
+| The hook blocks everything and says "Security files were changed" | Something in `core/`, `kit`, `kit.cmd` or `rules.json` differs from the seal. Type `git checkout .` to restore the originals. Kit owners: review `git diff`, then re-seal |
 | Hook does not run on Windows | In `.claude/settings.json` change the hook command to `kit.cmd hook` |
 
 ## Known limits and what is untested
 
-- **Nothing in this kit has been run end to end yet.** The specs and tests are written. I checked the rules and tests with a throwaway implementation, but not the setup flow with a real AI.
-- **Not tested:** the bootstrap with real models (Claude Code, Codex, Gemini), generated code in both Node and Python, `start.cmd` on Windows, the hook inside a real Claude Code session, and every Google connection guide.
-- **AI-written security code.** Different models produce different code. The tests are the safety net, and the seal detects later changes. A weak model may fail the tests or pass them with subtle gaps. Review the code.
-- **Free tiers.** Building the tools takes a few minutes and some quota. Do the setup before the workshop.
+- **Tested:** all four test suites pass (74 security rules, 23 command tests, the work log chain, 22 offline Google tests) on Python 3.15 and on the macOS system Python 3.9. Google is tested offline against canned answers only.
+- **Not tested yet:** a real Google sign-in and token refresh, the hook inside a live Claude Code session, Codex and Gemini end to end, `start.cmd` and `kit.cmd` on Windows, and PDF output on every OS.
+- **Hard limits only in Claude Code.** There the hook blocks and logs. In Codex, Gemini CLI and Antigravity the rules are a request the assistant follows, not a lock. The real protection there is the tool itself: `kit google` has no send, delete or share command and talks to four Google hosts only.
+- **Google test mode.** The sign-in lasts 7 days and Google shows an "unverified app" notice. Fine for a workshop. For daily use, make your own Google project.
 - The hours in the report are only as good as the minutes you give.
-- The security rules are a safety net, not a guarantee. With tools other than Claude Code they are a request, not a lock.
+- The security rules are a safety net, not a guarantee.
 - Everything here is a starting point. Read the files, change them, make them yours.

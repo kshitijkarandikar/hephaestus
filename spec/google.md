@@ -1,6 +1,6 @@
 # Google tool: `kit google`
 
-Optional. Built after the base setup, on request (see `../setup/BOOTSTRAP.md`, section "Add Google"). Lets the assistant read Gmail, Calendar and Drive, and prepare drafts, through Google's own API. It works with any AI tool because it is just a `kit` command.
+Shipped in `core/google.py`. The user connects it on request (see `../setup/BOOTSTRAP.md`, section "Connect Google"). Lets the assistant read Gmail, Calendar and Drive, and prepare drafts, through Google's own API. It works with any AI tool because it is just a `kit` command.
 
 Code goes in `core/google.<ext>` (or inside `core/kit.<ext>`). Standard library only.
 

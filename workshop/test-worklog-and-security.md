@@ -1,12 +1,12 @@
 # Test: work log and security
 
-Use a throwaway copy: `cp -R kit ~/kit-test && cd ~/kit-test`. Run `./start.sh` first so the AI builds the tools (see `setup/BOOTSTRAP.md`). Part A needs that done.
+Use a throwaway copy: `cp -R kit ~/kit-test && cd ~/kit-test`. Part A needs only Python 3. Run `python3 maintainer/run-tests.py` first: it must say `TOTAL FAILURES: 0`.
 
 ## A. No AI needed (2 min)
 
 | Command | Pass |
 |---|---|
-| `./kit check selftest` | `73 passed, 0 failed` (or more if you added tests) |
+| `./kit check selftest` | `74 passed, 0 failed` (or more if you added tests) |
 | `./kit log verify` | `OK: 8 entries, chain intact` |
 | `./kit report from=2026-11-01 to=2026-11-30` | Acme Bikes 13.17 h, Bloem & Co 4.83 h, Noord Studio 1.50 h, total 19.50 h |
 | `./kit log add client="Test" task="Try it" minutes=5` then `./kit log list` | new entry today |

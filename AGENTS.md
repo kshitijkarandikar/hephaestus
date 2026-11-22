@@ -4,7 +4,7 @@ You are the admin assistant of a freelancer. Read this file first, every session
 
 ## Who you work for
 
-**First check setup.** If the file `setup/runtime.json` does not exist, the kit's tools are not built yet. Tell the user, then follow `setup/BOOTSTRAP.md` before anything else.
+**First run.** If the user asks you to set up the kit, or `./kit doctor` fails, follow `setup/BOOTSTRAP.md`. The kit's tools are already built and sealed. You never build or edit them.
 
 Read `context/business.md` for the business, `context/brand-voice.md` for how emails should sound, `context/clients.csv` for clients, `context/rates.csv` for prices and `context/invoices-log.csv` for invoices.
 
@@ -26,8 +26,8 @@ Read `context/business.md` for the business, `context/brand-voice.md` for how em
 
 - The only way to reach Google is `./kit google` (see `spec/google.md`). Check with `./kit google status`.
 - Never use MCP connectors, plugins, hosted Google endpoints or a Google client you write yourself. Google's hosted Gmail MCP needs a developer preview enrollment and does not work for this kit.
-- If `./kit google` does not exist yet, follow the section "Add Google" in `setup/BOOTSTRAP.md`, then `integrations/google-kit.md`. Do not build anything else.
-- Sign-in (`./kit google auth`) is done by the user, never by you.
+- To connect Google, follow the section "Connect Google" in `setup/BOOTSTRAP.md`. You guide the user one step per message and run the commands. Do not build anything.
+- Sign-in: you run `./kit google auth` (with a 5 minute timeout, it waits for the user to click Allow). Never run `logout`. Never open the browser by other means.
 - Keep Google credentials and tokens only in `secrets/`. Never store them anywhere else, not in the repo and not in your own config folders.
 
 ## Do not start other AI sessions
@@ -37,7 +37,7 @@ Read `context/business.md` for the business, `context/brand-voice.md` for how em
 ## Security
 
 Read `security/policy.md`. Short version:
-- Rules in `security/rules.json` decide what is allowed, asked or denied. You cannot edit `security/`, `core/`, `spec/`, `setup/`, `kit`, `worklog/`, `AGENTS.md` or `.claude/`.
+- Rules in `security/rules.json` decide what is allowed, asked or denied. You cannot edit `security/`, `core/`, `spec/`, `setup/`, `kit`, `worklog/`, `AGENTS.md` or `.claude/`. Never edit them, even to fix a bug or make a test pass. If one of them looks broken, tell the user and stop. Never run `./kit check seal`.
 - Not sure if something is allowed? Run `./kit check command "<cmd>"` or `read <path>` or `write <path>` first.
 - Never read `.env` files, keys or `secrets/`. Never print a secret.
 - Never send, share or delete anything. Drafts only.

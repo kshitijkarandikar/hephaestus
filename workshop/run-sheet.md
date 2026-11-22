@@ -3,7 +3,7 @@
 | Min | Block | What |
 |---|---|---|
 | 0-10 | Demo | see below |
-| 10-15 | Setup | everyone runs `./start.sh`. The AI builds the tools from the specs (this is the first agent lesson). Slow? They keep going while it builds, or use the safe fallback below |
+| 10-15 | Setup | everyone runs `./start.sh`. The AI checks the kit (about 1 minute, nothing is built). Python 3 missing? See SETUP.md step 2. Google file handed out for those who want Google |
 | 15-25 | Build 1 together | `invoice-from-notes` with `skill-builder` |
 | 25-40 | Build 2 own pick | payment chaser, or a skill from `menu-of-skills.md` |
 | 40-45 | Chain | "Do my Friday admin": assistant picks the skills itself. This is the agent moment |

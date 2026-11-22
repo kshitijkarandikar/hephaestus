@@ -2,7 +2,7 @@
 
 Read the steps one by one and do each one. Each step says what you should see. If you do not see it, go to "If something goes wrong" at the bottom.
 
-**Part 1** gets the kit running. It takes about 15 minutes. **Part 2** connects Google (Gmail, Calendar, Drive). It is optional and takes about 30 minutes. Do Part 1 before the workshop. Do Part 2 only if you want it.
+**Part 1** gets the kit running. It takes about 10 minutes. **Part 2** connects Google (Gmail, Calendar, Drive). It is optional and takes about 5 minutes if the workshop host gives you a Google file, or about 30 minutes if you make your own. Do Part 1 before the workshop. Do Part 2 only if you want it.
 
 Use **fake client data** while you practise. Everything you type goes to your AI provider.
 
@@ -20,15 +20,22 @@ You need one of these. Pick the one you already have an account for:
 
 You should see: the install page finishes without errors. Check it later in step 5.
 
-### Step 2. Install git
+### Step 2. Install Python 3 and git
 
 Open a terminal (Mac: the app "Terminal". Windows: "Windows Terminal" or "Command Prompt"). Type:
 
 ```
+python3 --version
 git --version
 ```
 
-You should see a version number. If you see "command not found", install git from https://git-scm.com/downloads, close the terminal, open a new one, and try again.
+(On Windows, type `python --version` for the first line.)
+
+You should see two version numbers. If one says "command not found":
+
+- **Python, Mac:** type `xcode-select --install`. A window opens. Click Install and wait. This also installs git.
+- **Python, Windows:** type `winget install Python.Python.3.12`, then close the terminal and open a new one.
+- **git, Windows:** download it from https://git-scm.com/downloads, then open a new terminal.
 
 ### Step 3. Download the kit
 
@@ -61,68 +68,15 @@ You should see: `Starting Claude Code in this folder.` (or Codex, or Gemini). Th
 
 On a Mac you may see `permission denied`. Type `chmod +x start.sh` and try again.
 
-### Step 5. Answer the language question
+### Step 5. Let it check the kit
 
-The AI is now setting up the kit. First it checks which programming language your laptop has: Node.js or Python.
+The AI runs a health check. This takes about a minute. The kit is already built and tested, so the AI builds nothing and you review nothing.
 
-- It asks you which one to use. Pick either. If you do not care, say **Python**.
-- If you have neither, it tells you how to install one. Do that, close the AI tool, and start again from step 4.
+It may ask permission to run commands. Say yes to the ones that start with `./kit`. They only touch this folder.
 
-You should see: a message like `Found Python 3.12` and your question.
+You should see: `All good.` and a short hello with three things to try.
 
-### Step 6. Let it build
-
-The AI now writes a small program for you, using plain-English instructions in the `spec/` folder. This takes about 5 to 10 minutes. It will ask for permission to create files and run commands. Say yes to those. They stay inside the kit folder. Say no to anything that touches other folders or the internet.
-
-You should see: at the end, something like `All 23 conformance checks passed` and `54 passed` (or more) for the security tests.
-
-If a test fails, the AI fixes its own code. That is normal. If it is still failing after 5 tries, see the bottom of this page.
-
-### Step 7. Review and approve
-
-The AI asks: **"Do you approve this code?"**
-
-You do not need to read all of it. It is good to ask first:
-
-```
-Explain in plain English what the security parts of core/ do.
-```
-
-When you are happy, type: **yes**
-
-You should see: the AI thanks you and asks you to run one command yourself (next step).
-
-### Step 8. Seal it (you do this one, not the AI)
-
-This records a checksum of the safety code, so any later change is noticed. The AI is not allowed to do this step. That is on purpose.
-
-Open a **second terminal window** (or a new tab), go to the kit folder (`cd business-agent-kit`) and type:
-
-Mac and Linux:
-```
-./kit check seal
-```
-Windows:
-```
-kit check seal
-```
-
-In Claude Code you can also type `! ./kit check seal` in the prompt.
-
-You should see: `Sealed 4 files in setup/core.sha256.json` (the number may differ).
-
-Then go back to the AI and type: **sealed**
-
-### Step 9. Finish and restart
-
-The AI checks the seal, runs a health check (`./kit doctor`), and writes the first line in your work log. Then it tells you to restart.
-
-1. Close the AI tool (type `/exit`, or press Ctrl+C twice).
-2. Run `./start.sh` (Windows: `start.cmd`) again.
-
-You should see: the AI starts again, this time without building anything.
-
-### Step 10. Try it
+### Step 6. Try it
 
 Type these one at a time:
 
@@ -138,23 +92,15 @@ Summarize inbox/meeting-notes-noord-studio.txt
 
 You should see: a summary with decisions, promises and open questions. It saves a file in `outputs/` and asks how many minutes it took you. Answer with a number, or say you do not know.
 
-### Step 11. Check your work log
+### Step 7. Check your work log
 
-In the second terminal:
+Open a second terminal in the kit folder and type:
 
 ```
 ./kit log list
 ```
 
-You should see: a line for the task you just did.
-
-Also try:
-
-```
-./kit doctor
-```
-
-You should see: `All good.`
+You should see: a line for the task you just did. Also try `./kit doctor`. You should see `All good.`
 
 **Part 1 is done.**
 
@@ -162,7 +108,14 @@ You should see: `All good.`
 
 ## Part 2: Connect Google (optional)
 
-This lets the AI read your Gmail, Calendar and Drive, and prepare drafts. It never sends, deletes or shares anything. Follow `integrations/google-kit.md` step by step. It starts with asking the AI to add the Google tool.
+This lets the AI read your Gmail, Calendar and Drive, and prepare drafts. It never sends, deletes or shares anything.
+
+1. **Get the Google file.** At the workshop, the host gives you a file. Save it in the `secrets` folder of the kit and name it exactly `google-client.json`. On your own, the AI walks you through making one.
+2. In the AI, type: **connect Google**
+3. The AI runs the sign-in. A browser tab opens. Choose your Google account and click **Allow**. If Google says "hasn't verified this app", click **Advanced**, then **Go to ... (unsafe)**. That warning is normal for a test app.
+4. The AI tests it by reading your next 7 days of calendar and 3 recent emails.
+
+You should see: a short list of your calendar and emails. In test mode, Google signs you out after 7 days. Run step 2 again then.
 
 ---
 
@@ -182,8 +135,9 @@ This lets the AI read your Gmail, Calendar and Drive, and prepare drafts. It nev
 | `No AI tool found` | Install one (step 1), close the terminal, open a new one |
 | `permission denied` on `./start.sh` | Type `chmod +x start.sh`, or `bash start.sh` |
 | The AI says it cannot start itself or a daemon folder fails | You asked the AI to run `start.sh`. Run it yourself in a terminal |
-| Neither Node.js nor Python is found | Mac: `brew install python`. Windows: `winget install Python.Python.3.12`. Or download from python.org. Then open a new terminal |
-| The AI keeps failing a test | Close it, start again with a stronger model if you can, and say: `Run setup/BOOTSTRAP.md again from step 3` |
-| The AI says "denied" for `./kit check seal` | Right. You run that one yourself (step 8) |
-| `./kit: command not found` | Setup is not finished. Do steps 4 to 9 |
+| `Python 3 is not installed` | Do step 2, then open a new terminal and start again |
+| The AI says a kit file was changed ("CHANGED") | Type `git checkout .` in the kit folder, then start again |
+| `./kit: command not found` | You are not in the kit folder. Type `cd business-agent-kit` |
+| Google sign-in says the file is missing | The file must be at `secrets/google-client.json`, with exactly that name |
+| Google stopped working after a week | Test mode signs you out after 7 days. Say "connect Google" again |
 | Something else | Run `./kit doctor` and read its `[FAIL]` and `[warn]` lines. Send them to the person running the workshop |
