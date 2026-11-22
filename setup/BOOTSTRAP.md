@@ -40,8 +40,8 @@ Never build a Google tool. `./kit google` already exists. Follow `integrations/g
 0. **Check the basics.** Run `./kit doctor`. It must say `All good.` Nothing else from SETUP.md Part 1 is needed.
 1. Run `./kit google status`. If it says signed in, you are done: run the test in step 5.
 2. **The client file.** Do not ask the user about files in `secrets/`, and do not ask for a filename there. Go to step 3 first. Only if `./kit google auth` says `Put the OAuth client file at secrets/google-client.json`, the kit has no client file yet:
-   - At the workshop the host gives out a `.json` file. Ask where the user saved the download (often Downloads) and the file name there.
-   - On their own, they create it once: follow part B of `integrations/google-kit.md`, one step per message. Say what they should see on each screen. Order matters: first the consent screen (External, Testing, their own account as a test user), then the Desktop app client.
+   - If the user already has the downloaded `.json` file, ask where it is (often Downloads) and its file name there.
+   - If not, they create it once. It takes about 20 to 30 minutes, so tell them it is better done before the workshop. Follow part B of `integrations/google-kit.md`, one step per message. Say what they should see on each screen. Order matters: first the consent screen (External, Testing, their own account as a test user), then the Desktop app client.
    - Then you run: `./kit google client file=<path of the downloaded file>`, and go back to step 3. The program checks the file and saves it in `secrets/` for you. It prints no secrets. You never open, read, move or print that file yourself, and you never ask the user to send it.
 3. **Sign in.** Run `./kit google auth` with a 5 minute timeout (it waits for the user). Tell the user first: "A browser tab opens. Choose your Google account and click Allow. Then come back here." If Google shows "Google hasn't verified this app", that is expected for this kit: the user clicks Advanced, then "Go to ... (unsafe)". Say so before they hit it.
 4. Run `./kit google status`. It must say signed in.

@@ -3,7 +3,7 @@
 | Min | Block | What |
 |---|---|---|
 | 0-10 | Demo | see below |
-| 10-15 | Setup | everyone runs `./start.sh`. The AI checks the kit (about 1 minute, nothing is built). Python 3 missing? See SETUP.md step 2. Google file handed out for those who want Google |
+| 10-15 | Setup | everyone runs `./start.sh`. The AI checks the kit (about 1 minute, nothing is built). Python 3 missing? See SETUP.md step 2. Path A people already made their Google project at home (pre-work below) |
 | 15-25 | Build 1 together | `invoice-from-notes` with `skill-builder` |
 | 25-40 | Build 2 own pick | payment chaser, or a skill from `menu-of-skills.md` |
 | 40-45 | Chain | "Do my Friday admin": assistant picks the skills itself. This is the agent moment |
@@ -11,6 +11,11 @@
 | 50-60 | Questions | |
 
 Hands-on is about 30 minutes in total (setup plus builds). The 10 minute buffer sits at the end of hands-on and can absorb a slow setup.
+
+## Deck and options
+
+- Deck: `../slides/agent-workshop-v2.pptx` (12 slides, speaker notes on each; the last is Thank you and Questions). Slides 2 to 8 are about 7 minutes, the live demo (slide 9) about 4 minutes. Slide 10 is the hands-on start: it points to `workshop/hands-on.html` and names both paths. Slide 8 (safety) can be skipped.
+- Participants follow `workshop/hands-on.html` (open it in a browser). Hands-on paths: A is Google (see `integrations/google-kit.md`), B is `workshop/option-b-no-google.md` (call transcript to a local email draft, with the answer sheet).
 
 ## Demo (10 min)
 
@@ -28,6 +33,7 @@ The first start makes each AI write the tools and pass the tests. It takes a few
 
 ## Before the day
 
+- Email attendees: Google is optional. Anyone who wants Path A must make their own Google project at home first (about 20 to 30 minutes, `integrations/google-kit.md` Part B), and add their own account as a test user. Everyone else takes Path B.
 - Email attendees: install ONE AI tool, log in, bring Chrome or Edge. Send the clone command and ask them to run `./start.sh` at home. Node.js or Python is helped along by the setup.
 - Do a full setup yourself in Python AND in Node on a clean laptop. Note the time it took and the quota it used.
 - Test the kit in Claude Code, Codex and Gemini or Antigravity. Note the exact start commands.

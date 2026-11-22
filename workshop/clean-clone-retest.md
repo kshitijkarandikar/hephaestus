@@ -10,7 +10,7 @@ Pretend to be a participant. Do not use what you know. Only follow `SETUP.md`.
 - [ ] Run `./kit check seal`, commit, push. Check on GitHub that the latest commit is there.
 - [ ] Run the tests with the macOS system Python too: `/usr/bin/python3 maintainer/run-tests.py`.
 - [ ] Have a spare Google account for testing, with its email added as a test user in the workshop Google project.
-- [ ] Have the workshop `google-client.json` file ready to hand out (not in the repo).
+- [ ] Make your own Google project from `integrations/google-kit.md` Part B, as a participant would. Time it, and note every confusing screen.
 
 ## 1. Make a clean start
 
@@ -66,7 +66,7 @@ Record: start time ______
 - [ ] `./kit log list` shows `google ...` lines and no email text.
 - [ ] `git status` does not show anything from `secrets/`. Nothing named `client_secret*.json` is left in the folder.
 
-Targets: Google with the handed-out file under 5 minutes.
+Targets: Part B (making the project) about 20 to 30 minutes. Sign-in and tests after that, under 10 minutes.
 
 Then, optional drafts:
 - [ ] `./kit google auth level=draft` prints the honest note about `gmail.compose`.
@@ -107,6 +107,6 @@ Repeat steps 1 to 3 with Codex in a fresh clone. Expected differences:
 
 Go if all of these are true:
 - Part 1 under 10 minutes, no code review, no seal step, with Claude Code.
-- Google with the handed-out file works in Claude Code.
+- Google works in Claude Code for someone who made their own project at home.
 - A failed setup always ends with a clear message and a fix.
 - You have a fallback for Codex and Gemini users (use `./start.sh pack` with a chat window, or pair them with someone on Claude Code).

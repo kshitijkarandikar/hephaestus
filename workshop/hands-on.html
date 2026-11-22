@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hands-on guide</title>
+<style>
+  :root {
+    --bg: #ffffff; --ink: #14303a; --muted: #56676e; --card: #eef4f3;
+    --a: #0e7c86; --a-tint: #dceeee; --b: #c2610f; --b-tint: #fbe6d0;
+    --code-bg: #14303a; --code-ink: #ffffff; --line: #cfdcdc;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f2229; --ink: #eaf2f2; --muted: #a9bcc0; --card: #17323b;
+      --a: #4fc3cb; --a-tint: #17383e; --b: #f0a35e; --b-tint: #3a2a1a;
+      --code-bg: #0a171c; --code-ink: #eaf2f2; --line: #2b4a53;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f2229; --ink: #eaf2f2; --muted: #a9bcc0; --card: #17323b;
+    --a: #4fc3cb; --a-tint: #17383e; --b: #f0a35e; --b-tint: #3a2a1a;
+    --code-bg: #0a171c; --code-ink: #eaf2f2; --line: #2b4a53;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 Calibri, "Segoe UI", system-ui, sans-serif; }
+  main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font: 700 34px/1.2 Cambria, Georgia, serif; margin: 0 0 6px; }
+  h2 { font: 700 26px/1.2 Cambria, Georgia, serif; margin: 0 0 4px; }
+  h3 { font-size: 18px; margin: 22px 0 8px; }
+  p { margin: 6px 0; }
+  .muted { color: var(--muted); }
+  .top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+  .toggle { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 8px; padding: 6px 12px; font: inherit; cursor: pointer; }
+  .start { background: var(--card); border-radius: 12px; padding: 16px 20px; margin: 18px 0 24px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  .path { border-radius: 14px; padding: 20px 22px 24px; }
+  .path.a { background: var(--a-tint); }
+  .path.b { background: var(--b-tint); }
+  .path.a h2 { color: var(--a); }
+  .path.b h2 { color: var(--b); }
+  ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 14px 0 0; }
+  ol.steps > li { counter-increment: s; position: relative; padding: 0 0 14px 44px; }
+  ol.steps > li::before {
+    content: counter(s); position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%;
+    display: grid; place-items: center; font-weight: 700; color: #fff; background: var(--a);
+  }
+  .path.b ol.steps > li::before { background: var(--b); }
+  .path.a ol.steps > li::before, .path.b ol.steps > li::before { color: #0f2229; }
+  @media (prefers-color-scheme: light) { .path.a ol.steps > li::before, .path.b ol.steps > li::before { color: #fff; } }
+  :root[data-theme="light"] .path ol.steps > li::before { color: #fff; }
+  :root[data-theme="dark"] .path ol.steps > li::before { color: #0f2229; }
+  .cmd { display: flex; gap: 8px; align-items: stretch; margin: 8px 0 0; }
+  .cmd code { flex: 1; background: var(--code-bg); color: var(--code-ink); border-radius: 8px; padding: 9px 12px; font: 15px/1.4 "Courier New", ui-monospace, monospace; overflow-wrap: anywhere; }
+  .cmd button { border: 0; border-radius: 8px; padding: 0 12px; font-weight: 600; font-size: 14px; font-family: inherit; background: var(--ink); color: var(--bg); cursor: pointer; min-width: 64px; }
+  .note { font-size: 15px; color: var(--muted); }
+  .warn { border-radius: 10px; background: var(--card); padding: 10px 14px; margin-top: 12px; font-size: 15px; }
+  ul { margin: 6px 0 6px; padding-left: 22px; }
+  details { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 10px; }
+  summary { cursor: pointer; font-weight: 700; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; margin-top: 8px; }
+  td, th { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .foot { margin-top: 28px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div>
+      <h1>Hands-on: pick a path</h1>
+      <p class="muted">About 30 minutes. Use fake client data only. Both paths use the same kit.</p>
+    </div>
+    <button class="toggle" id="theme" type="button">Switch light or dark</button>
+  </div>
+
+  <section class="start">
+    <strong>First:</strong> open a terminal in the kit folder and start your AI tool.
+    <div class="cmd"><code>./start.sh</code><button type="button" data-copy="./start.sh">Copy</button></div>
+    <p class="note">Windows: <code>start.cmd</code>. You should see the AI say "All good". If not, see SETUP.md.</p>
+  </section>
+
+  <div class="grid">
+
+    <!-- PATH A -->
+    <section class="path a" id="path-a">
+      <h2>Path A: connect Google</h2>
+      <p class="muted">You read your calendar and mail, and save a draft. Nothing is ever sent.</p>
+      <div class="warn"><strong>You need:</strong> your own Google project and the downloaded <code>.json</code> file. Making it takes 20 to 30 minutes, once. No file yet? Take Path B now and do this later: <code>integrations/google-kit.md</code>, Part B.</div>
+
+      <ol class="steps">
+        <li><strong>Tell your AI:</strong>
+          <div class="cmd"><code>connect Google</code><button type="button" data-copy="connect Google">Copy</button></div>
+          <p class="note">It checks the kit, then guides you one step at a time.</p></li>
+        <li><strong>Give it your Google file.</strong> Say where the <code>.json</code> file is, for example "it is in my Downloads folder".
+          <p class="note">The AI never opens the file. A kit command checks it and saves it safely, then deletes the download.</p></li>
+        <li><strong>Click Allow in the browser.</strong> A tab opens. Choose your test account. If Google says "hasn't verified this app", click <em>Advanced</em>, then <em>Go to ... (unsafe)</em>. This is your own app.
+          <p class="note">Codex: it asks you to approve each Google command. Click Approve, Google needs the internet.</p></li>
+        <li><strong>Check it worked:</strong>
+          <div class="cmd"><code>./kit google status</code><button type="button" data-copy="./kit google status">Copy</button></div>
+          <p class="note">You should see: signed in, level read.</p></li>
+        <li><strong>Try these, one at a time:</strong>
+          <div class="cmd"><code>What is on my calendar next week? When am I free for 90 minutes?</code><button type="button" data-copy="What is on my calendar next week? When am I free for 90 minutes?">Copy</button></div>
+          <div class="cmd"><code>Find my latest email thread about an invoice and summarize it.</code><button type="button" data-copy="Find my latest email thread about an invoice and summarize it.">Copy</button></div>
+          <div class="cmd"><code>Find my order confirmations from one shop and total them. Say what the total leaves out.</code><button type="button" data-copy="Find my order confirmations from one shop and total them. Say what the total leaves out.">Copy</button></div>
+        </li>
+        <li><strong>Drafts (optional):</strong> ask for a reply saved as a Gmail draft.
+          <div class="cmd"><code>Draft a reply to that thread and save it as a Gmail draft.</code><button type="button" data-copy="Draft a reply to that thread and save it as a Gmail draft.">Copy</button></div>
+          <p class="note">It asks for a recipient first, and for a second sign-in with draft access. It creates the draft only. You press send in Gmail yourself.</p></li>
+      </ol>
+
+      <details>
+        <summary>If something goes wrong</summary>
+        <table>
+          <tr><th>You see</th><th>Do</th></tr>
+          <tr><td><code>PermissionError</code> or a sandbox message</td><td>Your AI tool blocks sign-in. Open a normal terminal in the kit folder and run <code>./kit google auth</code> there. Then tell the AI "done".</td></tr>
+          <tr><td>"Access blocked" in the browser</td><td>Your account is not on the test users list in your Google project.</td></tr>
+          <tr><td>"No Google client file yet"</td><td>Tell the AI where your downloaded <code>.json</code> file is.</td></tr>
+          <tr><td>Stopped working after a week</td><td>Google test mode signs you out after 7 days. Say "connect Google" again.</td></tr>
+        </table>
+      </details>
+    </section>
+
+    <!-- PATH B -->
+    <section class="path b" id="path-b">
+      <h2>Path B: a call to an email draft</h2>
+      <p class="muted">No Google needed. Everything stays on your laptop.</p>
+      <div class="warn"><strong>The input:</strong> a 4 minute call between Sam (a freelance designer) and Daan (a client) about the final details that must be on the invoice. The file is <code>inbox/call-transcript-invoice-details.txt</code>.</div>
+
+      <ol class="steps">
+        <li><strong>Check the file first:</strong>
+          <div class="cmd"><code>Scan inbox/call-transcript-invoice-details.txt and tell me if it is safe.</code><button type="button" data-copy="Scan inbox/call-transcript-invoice-details.txt and tell me if it is safe.">Copy</button></div></li>
+        <li><strong>Summarize it:</strong>
+          <div class="cmd"><code>Summarize inbox/call-transcript-invoice-details.txt. List decisions, promises and open questions.</code><button type="button" data-copy="Summarize inbox/call-transcript-invoice-details.txt. List decisions, promises and open questions.">Copy</button></div></li>
+        <li><strong>Pull out the invoice facts:</strong>
+          <div class="cmd"><code>List every detail that must be on the invoice. Put each one in a table with the exact words from the call.</code><button type="button" data-copy="List every detail that must be on the invoice. Put each one in a table with the exact words from the call.">Copy</button></div></li>
+        <li><strong>Calculate:</strong>
+          <div class="cmd"><code>Work out the invoice lines and totals with the calculator.</code><button type="button" data-copy="Work out the invoice lines and totals with the calculator.">Copy</button></div>
+          <p class="note">The totals must come from <code>./kit calc</code>, not from the AI's head.</p></li>
+        <li><strong>Draft the email:</strong>
+          <div class="cmd"><code>Write a local email draft to Daan that confirms the invoice details, in my voice. Save it in outputs/. It is text to copy, not a Gmail draft.</code><button type="button" data-copy="Write a local email draft to Daan that confirms the invoice details, in my voice. Save it in outputs/. It is text to copy, not a Gmail draft.">Copy</button></div></li>
+        <li><strong>Stretch:</strong>
+          <div class="cmd"><code>Make the invoice as a PDF.</code><button type="button" data-copy="Make the invoice as a PDF.">Copy</button></div>
+          <p class="note">Or ask: "Make a skill that turns any call transcript into a confirmation email."</p></li>
+      </ol>
+
+      <h3>A good result has</h3>
+      <ul>
+        <li>The purchase order number from the call</li>
+        <li>Three invoice lines, with the extra work on its own line</li>
+        <li>What stays off the invoice</li>
+        <li>A payment term that differs from your usual one, and the AI says so</li>
+        <li>No email sent, and a question about how many minutes the task took you</li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="start foot">
+    <h3 style="margin-top:0">Finished early?</h3>
+    <ul>
+      <li>Do the other path.</li>
+      <li>Make your own skill. Rule of thumb: if you did a task twice, make it a skill.
+        <div class="cmd"><code>Make a skill for something I do every week.</code><button type="button" data-copy="Make a skill for something I do every week.">Copy</button></div></li>
+      <li>See what you did: <code>./kit log list</code></li>
+    </ul>
+    <h3>Before you leave</h3>
+    <ul>
+      <li>Path A: sign out with <code>./kit google logout</code> in your own terminal.</li>
+      <li>Also remove the app at myaccount.google.com/permissions.</li>
+      <li>Keep real client data out of the kit until you trust the setup.</li>
+    </ul>
+  </section>
+</main>
+
+<script>
+  // Copy buttons
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-copy]");
+    if (!b) return;
+    var text = b.getAttribute("data-copy");
+    var done = function () { var old = b.textContent; b.textContent = "Copied"; setTimeout(function () { b.textContent = old; }, 1200); };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, fallback); }
+      else { fallback(); }
+    } catch (err) { fallback(); }
+    function fallback() {
+      try {
+        var t = document.createElement("textarea"); t.value = text; document.body.appendChild(t); t.select();
+        document.execCommand("copy"); document.body.removeChild(t); done();
+      } catch (err2) { b.textContent = "Select and copy"; }
+    }
+  });
+  // Light or dark switch (remembered when the browser allows it)
+  (function () {
+    var root = document.documentElement, key = "kit-guide-theme";
+    try { var saved = localStorage.getItem(key); if (saved) root.setAttribute("data-theme", saved); } catch (e) {}
+    document.getElementById("theme").addEventListener("click", function () {
+      var cur = root.getAttribute("data-theme");
+      if (!cur) cur = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      var next = cur === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem(key, next); } catch (e) {}
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-# Business Agent Kit for freelancers
+# Hephaestus: the Business Agent Kit for freelancers
 
 An AI agent here is **a folder of plain text files**. No app, no server, no account with us. Any AI tool that can read files can run it. The example business is a fictional freelance designer, "Studio Sam". Replace it with your own.
 
@@ -60,8 +60,8 @@ No API keys are stored in this folder. Never put any here.
 ## Start with one command
 
 ```
-git clone <repo-url> business-agent-kit
-cd business-agent-kit
+git clone <repo-url> hephaestus
+cd hephaestus
 ./start.sh          # Mac and Linux
 start.cmd           # Windows
 ```
@@ -345,6 +345,8 @@ This folder is a git repo (branch `main`). Commit when you want a snapshot. The 
 | File | Use |
 |---|---|
 | `workshop/run-sheet.md` | 60 minute plan: 10 min demo, about 30 min hands-on, buffer, questions. Pre-workshop checklist |
+| `workshop/hands-on.html` | Participant guide: Path A (Google) and Path B (call transcript to email draft) side by side, with copy buttons. Open it in a browser |
+| `workshop/option-b-no-google.md` | Facilitator sheet for Path B: the answer key and how to make the audio prop |
 | `workshop/menu-of-skills.md` | Skill ideas for the hands-on part |
 | `workshop/test-worklog-and-security.md` | Tests for the work log and security |
 | `solutions/` | The two skills built live, as a fallback |
@@ -359,7 +361,7 @@ This folder is a git repo (branch `main`). Commit when you want a snapshot. The 
 | Sandboxed tool (Codex): Google commands fail (`PermissionError`, sandbox, `Could not reach Google`) | Codex runs commands in a sandbox with no internet. It should ask you to approve each `./kit google` command: click Approve. If it does not ask, tell it: "run this outside the sandbox and ask me for approval". Fallback: run `./kit google auth` in a normal terminal |
 | `./kit doctor` shows `FAIL` | Read the line. Send it to the person running the workshop |
 | Python 3 not found | Mac: `xcode-select --install`. Windows: `winget install Python.Python.3.12`. Or download from python.org. Restart the terminal |
-| `./kit: command not found` | You are not in the kit folder. Type `cd business-agent-kit` |
+| `./kit: command not found` | You are not in the kit folder. Type `cd hephaestus` |
 | PDF says no browser found | Install Chrome or Edge, or open the HTML file and use Print, Save as PDF |
 | PDF says `No PDF was made` | Read the `Browser said:` part. In a sandboxed AI tool the kit retries once without Chrome's own sandbox and with scripts off. If it still fails, run `./kit pdf <file>` in a normal terminal |
 | A command or file write is blocked | Read the reason. Run `./kit check command "<cmd>"` to see which rule. Rephrase the task. Edit `rules.json` by hand only if you understand the risk |

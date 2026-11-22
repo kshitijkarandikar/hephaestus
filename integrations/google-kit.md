@@ -1,6 +1,6 @@
 # Connect Google with `kit google`
 
-Works with any AI tool. The tool is already in the kit, so there is nothing to build. At a workshop, the host gives you a Google file and this takes about 5 minutes (skip Part B). On your own it takes about 30 minutes the first time, mostly clicking in Google's website.
+Works with any AI tool. The tool is already in the kit, so there is nothing to build. You make your own Google project (Part B). That takes about 20 to 30 minutes the first time, mostly clicking in Google's website, so do it before the workshop. After that, signing in and testing takes about 10 minutes.
 
 The easiest way: type **connect Google** in your AI tool. It walks you through this guide, one step at a time, and runs the commands for you.
 
@@ -18,7 +18,7 @@ Do not use Google's hosted Gmail MCP server or any MCP connector. They are block
 
 ## Part B: Create the Google project (in your browser)
 
-Skip this part if the workshop host gave you a `google-client.json` file. Save it in the `secrets` folder of the kit and go to Part C.
+Do this once. At the end you have a `.json` file in your Downloads folder. Step 5 gives it to the kit.
 
 Google's menus change names from time to time. Look for the words in **bold**.
 
