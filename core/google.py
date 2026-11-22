@@ -685,7 +685,11 @@ def auth(a):
         def log_message(self, *x):
             pass
 
-    srv = http.server.HTTPServer(("127.0.0.1", 0), H)
+    try:
+        srv = http.server.HTTPServer(("127.0.0.1", 0), H)
+    except OSError:
+        raise Fail("This program may not open the sign-in listener on your computer. Your AI tool is probably running it in a sandbox. "
+                   "Run the same command in a normal terminal window (in Claude Code type: ! ./kit google auth).")
     port = srv.server_address[1]
     redirect = "http://127.0.0.1:%d" % port
     url = AUTH_URL + "?" + q({"client_id": cid, "redirect_uri": redirect, "response_type": "code",
@@ -716,13 +720,45 @@ def auth(a):
         j = {}
     if status != 200 or "access_token" not in j:
         raise Fail("Google did not accept the sign-in. Try again.")
-    write_private(token_path(), json.dumps({
+    try:
+        write_private(token_path(), json.dumps({
         "level": lvl, "scope": j.get("scope", ""), "access_token": j["access_token"],
-        "refresh_token": j.get("refresh_token", ""), "expires_at": int(time.time()) + int(j.get("expires_in", 3600))}, indent=2))
+            "refresh_token": j.get("refresh_token", ""), "expires_at": int(time.time()) + int(j.get("expires_in", 3600))}, indent=2))
+    except OSError:
+        raise Fail("Signed in, but the token could not be saved in secrets/. Run the same command in a normal terminal window.")
     print("Signed in with level %s." % lvl)
     if lvl == "draft":
         print(DRAFT_NOTE)
     return lvl
+
+
+def client(a):
+    """Move the downloaded Google client file into secrets/. The assistant never reads the file: this program does."""
+    src = a.get("file", "")
+    if not src:
+        raise Fail("file is required")
+    src = os.path.expanduser(src)
+    if not os.path.isfile(src) or not src.lower().endswith(".json"):
+        raise Fail("Give the path of the .json file you downloaded from Google.")
+    try:
+        with open(src, encoding="utf-8") as f:
+            text = f.read()
+        c = json.loads(text)["installed"]
+        good = isinstance(c["client_id"], str) and isinstance(c["client_secret"], str) and c["client_id"] and c["client_secret"]
+    except (OSError, ValueError, KeyError, TypeError):
+        good = False
+    if not good:
+        raise Fail("That is not a Google Desktop app client file. In Google, create an OAuth client of type Desktop app and download its JSON.")
+    try:
+        write_private(client_path(), text)
+    except OSError:
+        raise Fail("Could not save into secrets/. Run the same command in a normal terminal window.")
+    try:
+        os.remove(src)
+    except OSError:
+        pass
+    print("Saved as secrets/google-client.json. The downloaded copy was removed.")
+    return "client saved"
 
 
 def logout(a):
@@ -767,7 +803,8 @@ COMMANDS = {
 
 USAGE = """kit google commands:
   kit google status
-  kit google auth [level=read|draft]      (the user runs this)
+  kit google client file=<downloaded .json>   (saves the Google client file in secrets/)
+  kit google auth [level=read|draft]      (opens the browser, the user clicks Allow)
   kit google logout                       (the user runs this)
   kit google gmail search q=<query> [max=10]
   kit google gmail thread id=<id> [save=true]
@@ -796,8 +833,8 @@ def main(args, kit_module):
     if args[0] == "status":
         status({})
         return 0
-    if args[0] in ("auth", "logout"):
-        name, fn, rest = "google " + args[0], (auth if args[0] == "auth" else logout), args[1:]
+    if args[0] in ("auth", "logout", "client"):
+        name, fn, rest = "google " + args[0], {"auth": auth, "logout": logout, "client": client}[args[0]], args[1:]
     elif len(args) >= 2 and (args[0], args[1]) in COMMANDS:
         label, fn = COMMANDS[(args[0], args[1])]
         name, rest = "google " + label, args[2:]

@@ -30,7 +30,14 @@ Honest note, print it during `auth level=draft`: Google has no "drafts only" per
 
 All arguments are `key=value`. An unknown `kit google` command prints a short usage list and exits 1, without logging. Order of checks for every command: first the arguments (missing or invalid), then the sign-in, then the access level. Invalid values (a bad date, `hours`, `days`, `min`, `max`, `level`) give a plain error and exit 1. Without a valid token (and without fixtures) every command except `status` and `auth` stops: stderr `Not signed in. Ask the user to run: kit google auth`, exit 1. A write command without the `draft` level: stderr `This needs level=draft. Ask the user to run: kit google auth level=draft`, exit 1.
 
-### `kit google auth [level=read|draft]` (the user runs this, not the assistant)
+### `kit google client file=<path>`
+
+Saves the client file the user downloaded from Google, so nobody has to find or create the `secrets` folder by hand and the assistant never has to read the file. Check order: `file` missing: `file is required`, exit 1. The path is not an existing file ending in `.json`: `Give the path of the .json file you downloaded from Google.`, exit 1. The JSON must hold non-empty strings in `installed.client_id` and `installed.client_secret`, otherwise: `That is not a Google Desktop app client file. In Google, create an OAuth client of type Desktop app and download its JSON.`, exit 1 (the file is left alone). Then write the same text to `secrets/google-client.json` (folder and file private, as for the token), delete the downloaded copy, print `Saved as secrets/google-client.json. The downloaded copy was removed.` Never print any content of the file. A write failure: `Could not save into secrets/. Run the same command in a normal terminal window.`, exit 1. Logged as `google client`. The tests only cover the refusal paths, because the happy path would overwrite a real client file.
+
+### `kit google auth [level=read|draft]`
+
+If the program cannot open the local listener (step 3), for example inside an AI tool's sandbox: stderr `This program may not open the sign-in listener on your computer. Your AI tool is probably running it in a sandbox. Run the same command in a normal terminal window (in Claude Code type: ! ./kit google auth).`, exit 1. If the token cannot be saved: `Signed in, but the token could not be saved in secrets/. Run the same command in a normal terminal window.`, exit 1.
+
 
 In offline test mode, `auth` refuses: `Not available in test mode.` exit 1. A level other than `read` or `draft`: error, exit 1.
 

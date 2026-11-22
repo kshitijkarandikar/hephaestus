@@ -38,6 +38,8 @@ You should see: each page says "API enabled".
 
 ### Step 3. Set up the consent screen
 
+Do this before step 4. Google may show a button like "Create OAuth client" along the way. That is step 4, so finish the consent screen first. Checkpoint before you go on: audience **External**, your own Google account in the **test users** list, and the app still in **Testing**.
+
 1. Menu, **APIs & Services**, **OAuth consent screen** (it may be called **Google Auth Platform**). Click **Get started** if it asks.
 2. App name: `Studio Assistant`. Support email: your email.
 3. Audience or user type: **External**.
@@ -57,22 +59,22 @@ Good to know: in Testing mode your sign-in lasts 7 days. After that, you run `./
 
 You should see: a file like `client_secret_123....json` in your Downloads folder.
 
-### Step 5. Put the key in the kit
+### Step 5. Give the file to the kit
 
-In the second terminal, inside the kit folder:
+Tell the AI where the downloaded file is, for example: `The file is in my Downloads folder.` The AI runs `./kit google client file=<path>`. The kit checks the file, saves it in the right place and deletes the download. Nobody, including the AI, reads or shows what is inside.
+
+Doing it yourself, in a normal terminal in the kit folder (use the real file name):
 
 Mac and Linux:
 ```
-mkdir -p secrets
-mv ~/Downloads/client_secret_*.json secrets/google-client.json
+./kit google client file=~/Downloads/client_secret_XXXX.json
 ```
-Windows (Command Prompt):
+Windows:
 ```
-mkdir secrets
-move %USERPROFILE%\Downloads\client_secret_*.json secrets\google-client.json
+kit google client file=%USERPROFILE%\Downloads\client_secret_XXXX.json
 ```
 
-You should see: the file `secrets/google-client.json`. This folder is hidden from git and from the AI on purpose. Never share this file.
+You should see: `Saved as secrets/google-client.json. The downloaded copy was removed.` If it says "not a Google Desktop app client file", go back to step 4 and make sure the client type is **Desktop app**. Never share this file.
 
 ---
 
@@ -149,10 +151,11 @@ Also remove the app at https://myaccount.google.com/permissions, and delete the 
 
 | What you see | What to do |
 |---|---|
-| `Put the OAuth client file at secrets/google-client.json` | Step 5 is not done, or the file name is wrong |
+| `Put the OAuth client file at secrets/google-client.json` | Step 5 is not done. Run `./kit google client file=<the downloaded file>` |
 | `Not signed in` | Say **connect Google** to the AI, or run `./kit google auth` |
 | `Sign-in expired` | Run `./kit google auth` again (Testing mode lasts 7 days) |
 | Browser says `Access blocked` or `Error 403: access_denied` | You are not on the test users list. Step 3, add your account |
 | `Google refused: ... API has not been used` | You skipped an API in step 2. Enable it, wait a minute |
 | `This needs level=draft` | Run `./kit google auth level=draft` |
+| `Error: PermissionError`, or a message about a sandbox | Your AI tool blocks the sign-in. Open a normal terminal in the kit folder and run `./kit google auth` there (Claude Code: type `! ./kit google auth`). Your client file is fine. Do not send it to anyone |
 | The AI asks permission to run `kit google auth` | Say yes. It only opens the Google sign-in page |

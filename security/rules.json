@@ -61,7 +61,8 @@
     "^(\\./|\\.\\\\)?kit(\\.cmd)?\\s+(log|report|check|pdf|calc|doctor)\\b",
     "^(\\./|\\.\\\\)?kit(\\.cmd)?\\s+google\\s+(status|gmail\\s+(search|thread)|calendar\\s+(list|freebusy)|drive\\s+(search|get))\\b",
     "^(date|pwd|ls|wc|head|tail|echo)\\b",
-    "^cat\\s+(outputs|inbox|context|skills)/",
+    "^cat\\s+(outputs|inbox|context|skills|integrations|setup|workshop)/",
+    "^cat\\s+(SETUP|README|AGENTS)\\.md$",
     "^git\\s+(status|log|diff|show)\\b",
     "^mkdir\\s+-p\\s+(outputs|worklog)(/|\\s|$)"
   ],
@@ -70,7 +71,7 @@
     "\\b(npm|pnpm|yarn|pip3?|brew|npx)\\b",
     "\\b(rm|mv|cp|mkdir|touch)\\b",
     "\\b(node|python3?|ruby|perl|php|deno|bun)\\s+-[ecr]\\b",
-    "\\bkit(\\.cmd)?\\s+google\\s+(auth|gmail\\s+draft|calendar\\s+create|drive\\s+upload)\\b"
+    "\\bkit(\\.cmd)?\\s+google\\s+(auth|client|gmail\\s+draft|calendar\\s+create|drive\\s+upload)\\b"
   ],
   "mcp_tool_rules": [
     {

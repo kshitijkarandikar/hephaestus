@@ -151,6 +151,24 @@
       "exit": 1
     },
     {
+      "name": "client refuses a file that is not json",
+      "cmd": "./kit google client file=context/rates.csv",
+      "exit": 1,
+      "stderr_contains": "Give the path of the .json file"
+    },
+    {
+      "name": "client refuses json of the wrong shape",
+      "cmd": "./kit google client file=security/tests/base.json",
+      "exit": 1,
+      "stderr_contains": "Desktop app client file"
+    },
+    {
+      "name": "client needs a file argument",
+      "cmd": "./kit google client",
+      "exit": 1,
+      "stderr_contains": "file is required"
+    },
+    {
       "name": "work log never holds content",
       "cmd": "KIT_WORKLOG_DIR=<temp folder> TZ=UTC KIT_GOOGLE_FIXTURES=spec/google-fixtures ./kit google gmail search q=palette > /dev/null && KIT_WORKLOG_DIR=<temp folder> ./kit log list",
       "exit": 0,
