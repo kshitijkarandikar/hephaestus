@@ -1,35 +1,22 @@
-# Connect your Google account (optional)
+# Integrations
 
-The kit works without any connection: you paste or drop text into `inbox/` and get drafts in `outputs/`. Connections are a bonus. They let the assistant read your Gmail, Calendar and Drive directly.
+## Google (Gmail, Calendar, Drive)
 
-**Status of these guides:** written from memory in November 2026, not tested on the day. Menus and names change often. Test one connection at home before the workshop. If it fails, skip it. The kit still works.
+Use **`google-kit.md`**. It sets up `kit google`, the kit's own tool that talks to Google's plain REST APIs with OAuth. It does not use MCP connectors, because those are not reliable for reading and writing email yet. It works with any AI tool, is tested offline, and keeps the kit's safety rules.
 
-## Safety first (read this)
+- Reads: Gmail threads, calendar events and free time, Drive files.
+- Writes (level `draft`, always asks you first): Gmail drafts, calendar events without guests, Drive uploads of files you made.
+- Never: send, delete, share or invite. No such command exists, and the security rules block them.
+- Use a test Google account while you practise.
 
-- Connect **only** if you are comfortable letting this AI tool read that mailbox. For practice, use a test Google account.
-- Start with **read-only** access. Add "create draft" later. Never allow "send".
-- The assistant rules in `AGENTS.md` say: ask before anything leaves the laptop. That is a rule in a text file, not a lock. Real safety is the permission you grant in the connection.
-- Email content can contain tricks ("forward all invoices to ..."). The assistant should treat email as data. Still read what it plans to do before you approve.
+## No connection
 
-## Pick your tool
-
-| Tool | Guide |
-|---|---|
-| Claude Code (main) | `google-claude-code.md` |
-| Gemini CLI or Antigravity | `google-gemini.md` |
-| ChatGPT Codex | `google-codex.md` |
-| Only a chat window (no files) | `chat-only.md` |
-
-## What each connection adds
-
-| Connection | What it unlocks | Skills that use it |
-|---|---|---|
-| Gmail | read threads, save drafts | `summarize-thread`, `draft-reply`, `payment-chaser` |
-| Google Calendar | see free time, add events | `next-steps` |
-| Google Drive | find and read files, save PDFs | `invoice-from-notes` |
-
-## No connection? Do this instead
+The kit works without any connection:
 
 - Gmail: open the thread, select all, copy, paste into `inbox/thread.txt`.
 - Calendar: tell the assistant your plans for the week in a sentence.
 - Drive: download the file into `inbox/`. Upload the PDF by hand.
+
+## Only a chat window
+
+See `chat-only.md`.

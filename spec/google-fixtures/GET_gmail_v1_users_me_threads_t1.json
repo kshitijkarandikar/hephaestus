@@ -1,0 +1,91 @@
+{
+  "id": "t1",
+  "messages": [
+    {
+      "id": "m1",
+      "threadId": "t1",
+      "payload": {
+        "mimeType": "multipart/mixed",
+        "headers": [
+          {
+            "name": "From",
+            "value": "Daan Bakker <daan@bloemco.example>"
+          },
+          {
+            "name": "To",
+            "value": "sam@studiosam.example"
+          },
+          {
+            "name": "Subject",
+            "value": "Re: Brand identity, part 1"
+          },
+          {
+            "name": "Date",
+            "value": "Wed, 19 Nov 2026 10:15:00 +0000"
+          }
+        ],
+        "parts": [
+          {
+            "mimeType": "multipart/alternative",
+            "body": {
+              "size": 0
+            },
+            "parts": [
+              {
+                "mimeType": "text/plain",
+                "body": {
+                  "size": 90,
+                  "data": "U2FtLCBzb3JyeSwgYnVzeS4gUXVpY2sgb25lOiB0aGUgY29sb3VyIHBhbGV0dGUgZmVlbHMgdG9vIGNvbGQuCkNhbiB5b3Ugc2VuZCAyIHdhcm1lciBvcHRpb25zIGJ5IEZyaWRheT8"
+                }
+              },
+              {
+                "mimeType": "text/html",
+                "body": {
+                  "size": 60,
+                  "data": "PHA-U2FtLCBzb3JyeSwgYnVzeS48L3A-PHA-UXVpY2sgb25lOiB0aGUgY29sb3VyIHBhbGV0dGUgZmVlbHMgdG9vIGNvbGQuPC9wPg"
+                }
+              }
+            ]
+          },
+          {
+            "mimeType": "image/png",
+            "filename": "palette.png",
+            "body": {
+              "attachmentId": "att1",
+              "size": 12345
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "m2",
+      "threadId": "t1",
+      "payload": {
+        "mimeType": "text/html",
+        "headers": [
+          {
+            "name": "From",
+            "value": "Sam de Vries <sam@studiosam.example>"
+          },
+          {
+            "name": "To",
+            "value": "daan@bloemco.example"
+          },
+          {
+            "name": "Subject",
+            "value": "Re: Brand identity, part 1"
+          },
+          {
+            "name": "Date",
+            "value": "Thu, 20 Nov 2026 09:00:00 +0000"
+          }
+        ],
+        "body": {
+          "size": 40,
+          "data": "PHA-SGkgRGFhbiw8L3A-PHA-V2lsbCBkby4gQ2Fmw6kgY29sb3VycyBjb21pbmcgRnJpZGF5LjwvcD4"
+        }
+      }
+    }
+  ]
+}

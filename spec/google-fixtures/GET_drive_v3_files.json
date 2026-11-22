@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "id": "f1",
+      "name": "Invoice template 2026",
+      "mimeType": "application/vnd.google-apps.document",
+      "modifiedTime": "2026-11-02T08:00:00.000Z"
+    },
+    {
+      "id": "f2",
+      "name": "Invoice 2026-013.pdf",
+      "mimeType": "application/pdf",
+      "modifiedTime": "2026-11-18T15:31:00.000Z"
+    }
+  ]
+}

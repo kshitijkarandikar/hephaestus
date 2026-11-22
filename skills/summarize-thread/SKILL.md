@@ -9,6 +9,7 @@ description: Summarize an email thread, meeting notes or a call transcript into 
 A file in `inbox/` or text pasted by the user. If a client is named, look them up in `context/clients.csv`.
 
 ## Steps
+0. If the user names an email thread and Google is connected, find it with `./kit google gmail search q="<words>"`, then save it with `./kit google gmail thread id=<id> save=true`. Use the saved file in `inbox/`. Read the scan line it prints and tell the user about any finding.
 1. Read the whole text. Note who said what and when.
 2. Write the summary in this shape:
    - **One line:** what this is about.

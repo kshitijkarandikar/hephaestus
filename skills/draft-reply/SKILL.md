@@ -17,7 +17,7 @@ What the email is for, plus the thread or notes (`inbox/` or pasted). Client fro
    - Answer every question they asked. Skip nothing.
    - Close with one next step and a date.
 4. Save as `outputs/<date>-email-<client>.md`. Show it.
-5. If Gmail is connected, offer to save it as a **draft** in Gmail. Only after the user says yes. Never send.
+5. If Google is connected (`./kit google status` says signed in with level draft), offer to save it as a **draft** in Gmail with `./kit google gmail draft to=<address> subject=<subject> body_file=<the file you saved> thread=<thread id>`. Only after the user says yes. Never send. Without Google, the user copies the text.
 
 ## Rules
 - Do not invent prices, dates or promises. Put `[CHECK: ...]` where a fact is missing.

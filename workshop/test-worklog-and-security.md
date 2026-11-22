@@ -6,7 +6,7 @@ Use a throwaway copy: `cp -R kit ~/kit-test && cd ~/kit-test`. Run `./start.sh` 
 
 | Command | Pass |
 |---|---|
-| `./kit check selftest` | `54 passed, 0 failed` (or more if you added tests) |
+| `./kit check selftest` | `73 passed, 0 failed` (or more if you added tests) |
 | `./kit log verify` | `OK: 8 entries, chain intact` |
 | `./kit report from=2026-11-01 to=2026-11-30` | Acme Bikes 13.17 h, Bloem & Co 4.83 h, Noord Studio 1.50 h, total 19.50 h |
 | `./kit log add client="Test" task="Try it" minutes=5` then `./kit log list` | new entry today |

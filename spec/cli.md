@@ -28,6 +28,7 @@ Users and the assistant always call `./kit <command> ...` (on Windows `kit <comm
 | `kit calc "<expression>"` | safe money math | `tools.md` |
 | `kit pdf <html file> [pdf file]` | HTML to PDF with a local browser | `tools.md` |
 | `kit doctor` | health check of the whole kit | `tools.md` |
+| `kit google ...` | optional: Gmail, Calendar, Drive | `google.md` |
 
 No arguments, or `kit help`: print the list of commands as plain text (one per line, with a short description). The exact wording is free.
 

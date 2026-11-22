@@ -17,7 +17,7 @@ Work notes (`inbox/` file or pasted) and the client name.
 6. Write `outputs/invoice-<number>-<client>.html`, copying the layout of `context/templates/invoice.html`.
 7. Run the `html-to-pdf` skill to make the PDF.
 8. **Show the user the lines and totals. Wait for "ok".** Only then add a row to `context/invoices-log.csv` with status `unpaid`. Then log the task in the work log (see the Log section).
-9. If Gmail is connected, offer a draft email with the PDF. Ask first. Never send.
+9. If Google is connected (level draft), offer to upload the PDF to Drive with `./kit google drive upload file=outputs/<pdf>`, and a Gmail draft with `./kit google gmail draft`. Ask first. Never send. (A Gmail draft cannot attach the PDF in this kit: tell the user to attach it by hand.)
 
 ## Rules
 - No row in the log before the user says ok.

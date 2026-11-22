@@ -53,10 +53,13 @@
     "\\bKIT_[A-Z_]+",
     ">>?\\s*[\"']?[^\\s\"']*(worklog/|security/|core/|setup/|spec/|kit\\.cmd|[\\s/]kit(\\s|$)|AGENTS\\.md|CLAUDE\\.md|GEMINI\\.md|\\.claude/|\\.git/)",
     "\\b(tee|sed\\s+-i\\S*|mv|cp|rm|truncate|ln|chmod)\\b[^|;&]*(worklog/|security/|core/|setup/|spec/|kit\\.cmd|[\\s/]kit(\\s|$)|AGENTS\\.md|CLAUDE\\.md|GEMINI\\.md|\\.claude/|\\.git/)",
-    "\\bkit(\\.cmd)?\\s+check\\s+seal\\b"
+    "\\bkit(\\.cmd)?\\s+check\\s+seal\\b",
+    "\\bkit(\\.cmd)?\\s+google\\s+(auth|logout)\\b",
+    "\\bkit(\\.cmd)?\\s+google\\s+\\S+\\s+(send|delete|share|trash|remove)\\b"
   ],
   "command_allow": [
     "^(\\./|\\.\\\\)?kit(\\.cmd)?\\s+(log|report|check|pdf|calc|doctor)\\b",
+    "^(\\./|\\.\\\\)?kit(\\.cmd)?\\s+google\\s+(status|gmail\\s+(search|thread)|calendar\\s+(list|freebusy)|drive\\s+(search|get))\\b",
     "^(date|pwd|ls|wc|head|tail|echo)\\b",
     "^cat\\s+(outputs|inbox|context|skills)/",
     "^git\\s+(status|log|diff|show)\\b",
@@ -66,7 +69,8 @@
     "\\bgit\\s+(commit|add|reset|checkout|clean|rm|merge|rebase)\\b",
     "\\b(npm|pnpm|yarn|pip3?|brew|npx)\\b",
     "\\b(rm|mv|cp|mkdir|touch)\\b",
-    "\\b(node|python3?|ruby|perl|php|deno|bun)\\s+-[ecr]\\b"
+    "\\b(node|python3?|ruby|perl|php|deno|bun)\\s+-[ecr]\\b",
+    "\\bkit(\\.cmd)?\\s+google\\s+(gmail\\s+draft|calendar\\s+create|drive\\s+upload)\\b"
   ],
   "mcp_tool_rules": [
     {

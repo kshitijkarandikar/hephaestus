@@ -1,0 +1,25 @@
+{
+  "items": [
+    {
+      "id": "e1",
+      "summary": "Call with Fenna",
+      "start": {
+        "dateTime": "2026-12-10T10:00:00Z"
+      },
+      "end": {
+        "dateTime": "2026-12-10T10:40:00Z"
+      },
+      "location": "Google Meet"
+    },
+    {
+      "id": "e2",
+      "summary": "Fenna holiday",
+      "start": {
+        "date": "2026-12-20"
+      },
+      "end": {
+        "date": "2027-01-03"
+      }
+    }
+  ]
+}

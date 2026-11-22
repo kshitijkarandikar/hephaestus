@@ -1,0 +1,3 @@
+Invoice template
+Number: {{number}}
+Client: {{client}}

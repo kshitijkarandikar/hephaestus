@@ -61,9 +61,13 @@ Wait for a clear yes. If they ask for changes, make them, then repeat step 4.
 
 ## 6. Lock it in
 
-After the yes:
-1. Run `./kit check seal`. This records a checksum of the core files in `setup/core.sha256.json`. From now on, any change to them is detected.
-2. If the AI tool is **Claude Code**, write `.claude/settings.json` (create it, or merge into the existing one) so it contains:
+1. **The user seals the core. You do not.** The security rules deny the assistant from running `seal`, on purpose: only the owner can say "this code is approved". Tell the user to run this in a normal terminal in the kit folder, then reply "sealed":
+   ```
+   ./kit check seal
+   ```
+   (Windows: `kit check seal`. In Claude Code the user can type `! ./kit check seal` in the prompt.) It prints `Sealed <n> files in setup/core.sha256.json`. Wait for their reply. Never try another way to create the seal file.
+2. After they confirm, run `./kit check integrity`. It must say `OK`.
+3. If the AI tool is **Claude Code**, write `.claude/settings.json` (create it, or merge into the existing one) so it contains:
    ```json
    {
      "permissions": {
@@ -82,10 +86,10 @@ After the yes:
      }
    }
    ```
-   On Windows use `kit.cmd` instead of `kit` in the hook command. Do this **last**, after the seal, because the rules block you from editing these files afterwards.
-3. Other tools (Codex, Gemini CLI, Antigravity): there is no hook. Tell the user that the security rules are advice for the assistant in this tool, and point them to `security/README.md` for the tool's own sandbox settings.
-4. Run `./kit doctor`. It should say `All good.`
-5. Log the setup: `./kit log add kind=note tool=<this AI tool> notes="Setup done with <runtime>"`
+   On Windows use `kit.cmd` instead of `kit` in the hook command. Do this **last**: the rules block you from editing these files afterwards.
+4. Other tools (Codex, Gemini CLI, Antigravity): there is no hook. Tell the user that the security rules are advice for the assistant in this tool, and point them to `security/README.md` for the tool's own sandbox settings.
+5. Run `./kit doctor`. It should say `All good.`
+6. Log the setup: `./kit log add kind=note tool=<this AI tool> notes="Setup done with <runtime>"`
 
 ## 7. Finish
 
@@ -93,6 +97,17 @@ Tell the user:
 - setup is done and which language was used,
 - they must **close this AI tool and start it again** (`./start.sh`, Windows `start.cmd`) so the hook and rules take effect,
 - then try: "What can you do in this folder?"
+
+## Add Google (optional, only when the user asks)
+
+Only after the base setup is finished and sealed. Read `spec/google.md` and `spec/google-conformance.json`, and `integrations/google-kit.md` for what the user does at Google.
+
+1. Build the `kit google` commands into `core/` (a new file `core/google.<ext>` or inside the main file), in the same language as `setup/runtime.json`. Standard library only.
+2. Run every test in `spec/google-conformance.json` (offline, with the fixtures, never the network). Fix the code until all pass. Re-run `./kit check selftest` and the base tests in `spec/conformance.json`: nothing may break.
+3. Ask the user to review the new code. Pay special attention to: which hosts it talks to, where it stores the token, and that it has no send, delete or share command. Wait for a clear yes.
+4. The user re-seals (the assistant cannot): tell them to run `./kit check seal`, then reply "sealed". Then run `./kit check integrity`.
+5. Tell the user to continue with `integrations/google-kit.md` from the step "Create the Google project". Do not run `kit google auth` yourself: it is denied for you, on purpose.
+6. Log: `./kit log add kind=note tool=<this AI tool> notes="Google tool added"`.
 
 ## To rebuild later (another language, or after a change to the specs)
 

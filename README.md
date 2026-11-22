@@ -2,6 +2,8 @@
 
 An AI agent here is **a folder of plain text files**. No app, no server, no account with us. Any AI tool that can read files can run it. The example business is a fictional freelance designer, "Studio Sam". Replace it with your own.
 
+**New here? Open `SETUP.md` and follow the steps one by one.**
+
 There is **no pre-built code** in this kit, not in Node.js and not in Python. The kit ships plain-English specs. On first start, your AI assistant checks which language your laptop has, writes the tools from the specs, and proves they work with tests. You watch an agent build its own tools. That is the lesson.
 
 ## Contents
@@ -65,6 +67,8 @@ start.cmd           # Windows
 
 `start.sh` is a short shell script. It finds your AI tool (Claude Code, Codex or Gemini CLI), starts it in this folder, and, on the first run, tells it to set up the kit. No tool installed? It prints the install links.
 
+`start.sh` is for **you**, in a normal terminal. Do not ask an AI to run it: it would try to start a second AI tool inside the first one and fail (the sandbox blocks it).
+
 Variants:
 - `./start.sh claude` starts a specific tool (`codex`, `gemini` also work). Windows: `start.cmd claude`.
 - `./start.sh pack` builds `outputs/pack.md` for a chat window. No AI tool needed.
@@ -79,7 +83,7 @@ The assistant follows `setup/BOOTSTRAP.md`:
 3. **Writes** the `kit` program in `core/`, plus the launchers `kit` (Mac, Linux) and `kit.cmd` (Windows).
 4. **Tests** it with `./kit check selftest` and every case in `spec/conformance.json`. It fixes its own code until all pass. It may not change the specs or tests to cheat.
 5. **Asks you to review** the security code, and waits for your yes.
-6. **Locks it in:** records a checksum of the core files, and for Claude Code adds the security hook and a deny list to `.claude/settings.json`.
+6. **Locks it in:** it asks **you** to run `./kit check seal` yourself, which records a checksum of the core files (the assistant is not allowed to). Then, for Claude Code, it adds the security hook and a deny list to `.claude/settings.json`.
 7. Tells you to restart the tool. After that you are ready.
 
 It takes a few minutes and uses some of your free AI quota. Setup is done once. If you want to switch language later, see `setup/BOOTSTRAP.md` (section "To rebuild later").
@@ -94,6 +98,7 @@ Check the results in `outputs/` and the log with `./kit log list`.
 ## Folder map
 
 ```
+SETUP.md               start here: step-by-step setup for participants
 start.sh, start.cmd    one-command launcher (shell only, no Node or Python)
 AGENTS.md              rules for the assistant (read first, every session)
 CLAUDE.md, GEMINI.md   one line each: point to AGENTS.md
@@ -106,11 +111,12 @@ outputs/               results go here (not tracked by git)
 
 skills/                ready-made skills, one folder each
 solutions/             finished versions of the two skills built live
-integrations/          Gmail, Calendar, Drive guides, and the chat-only route
+integrations/          Google guide (google-kit.md), other tool options, chat-only route
 
 spec/                  the tools, described in plain steps (no code)
-  README.md, cli.md, worklog.md, security.md, tools.md
+  README.md, cli.md, worklog.md, security.md, tools.md, google.md
   conformance.json     commands with expected results: the tests for the built tools
+  google-conformance.json, google-fixtures/   offline tests for the Google tool
 setup/
   BOOTSTRAP.md         what the assistant does on first start
   runtime.json         (created by setup) which language was used
@@ -167,6 +173,7 @@ All tools are one command, `./kit` (Windows: `kit`). Created during setup. Full 
 | `./kit calc "(4+5+3)*95"` | safe money math, 2 decimals, rounds half up |
 | `./kit pdf outputs/invoice.html` | HTML to PDF with a local browser |
 | `./kit doctor` | health check of the whole kit |
+| `./kit google ...` | optional: Gmail, Calendar, Drive (`spec/google.md`) |
 
 ## Work log
 
@@ -271,18 +278,28 @@ A determined attacker with access to your laptop, mistakes inside a connector yo
 
 ## Connect Google (optional)
 
-The kit works without any connection. You paste or drop text into `inbox/` and get drafts in `outputs/`. Connections let the assistant read Gmail, Calendar and Drive directly.
+`kit google` lets the assistant read Gmail, Calendar and Drive, and prepare drafts, in any AI tool. Follow `integrations/google-kit.md` step by step (about 30 minutes, mostly clicking in Google's website).
 
-- Guides: `integrations/README.md`, then `google-claude-code.md`, `google-gemini.md` or `google-codex.md`.
-- Start read-only. Allow "create draft" later. Never allow "send".
-- Practise with a test Google account.
-- The guides were written from memory and are **not tested**. Menu names change. If a step fails, skip it.
+- Built from `spec/google.md` like the rest, with offline tests (`spec/google-conformance.json`) that use canned Google answers in `spec/google-fixtures/`.
+- Default level is **read-only**. The optional `draft` level adds Gmail drafts, calendar events (never with guests) and Drive uploads of files you made.
+- **No send, delete or share command exists**, and the security rules deny them. Google itself has no "drafts only" permission, so the safety is in the tool and the rules. This is stated at sign-in.
+- Signing in (`./kit google auth`) and signing out are done by **you**. The assistant is denied both.
+- Your sign-in token lives in `secrets/`, which is hidden from git and from the assistant. Everything fetched is marked `UNTRUSTED CONTENT`, saved in `inbox/` and scanned. The work log records only counts, never email text.
+- It talks only to Google's own hosts. This is the one place the kit uses the network.
+- Practise with a test Google account. In Google's test mode, sign-in lasts 7 days.
+- It uses Google's plain REST APIs with OAuth, not MCP connectors.
 
-| Connection | Unlocks | Used by |
-|---|---|---|
-| Gmail | read threads, save drafts | `summarize-thread`, `draft-reply`, `payment-chaser` |
-| Google Calendar | see free time, add events | `next-steps` |
-| Google Drive | find and read files, save PDFs | `invoice-from-notes` |
+| Command | Does |
+|---|---|
+| `./kit google status` | signed in? which level |
+| `./kit google gmail search q="..."` | find threads |
+| `./kit google gmail thread id=... save=true` | read a thread, save it to `inbox/` |
+| `./kit google gmail draft to= subject= body_file=` | create a draft (level draft, asks you) |
+| `./kit google calendar list from= to=` | events |
+| `./kit google calendar freebusy from= to=` | free time |
+| `./kit google calendar create title= start= end=` | event, no guests (level draft, asks you) |
+| `./kit google drive search q="..."` and `drive get id=...` | find and read files |
+| `./kit google drive upload file=outputs/...` | upload a file you made (level draft, asks you) |
 
 ## Using a chat window only
 
@@ -298,7 +315,7 @@ Details: `integrations/chat-only.md`.
 
 ## Use it for your own business
 
-1. Do the first-start setup once.
+1. Do the setup once (`SETUP.md`).
 2. Replace `context/business.md` (name, address, VAT, payment term, working days, late payment policy).
 3. Replace `context/clients.csv`, `rates.csv`, `invoices-log.csv`, `brand-voice.md`. Start with fake client data while you practise.
 4. Change the name "Studio Sam" in `AGENTS.md` if you like. That file is protected from the assistant, so edit it by hand.
@@ -339,6 +356,7 @@ This folder is a git repo (branch `main`). Commit when you want a snapshot. The 
 | Problem | Try |
 |---|---|
 | The tool ignores the folder rules | Say "Read AGENTS.md first". Note which tool did not load it |
+| Asked the AI to "run the start script" and it failed (daemon folder, sandbox) | Run `./start.sh` yourself in a normal terminal. Or, inside an AI session, paste: `Read setup/BOOTSTRAP.md and set up this kit.` |
 | `./start.sh`: permission denied | Run `chmod +x start.sh`, or `bash start.sh` |
 | Setup keeps failing a test | Read the failing case. Ask the assistant to fix the code, not the tests. If it fails after 5 rounds, switch to a stronger AI model and run setup again |
 | Neither Node.js nor Python found | Install one: `brew install node` or `brew install python` (Mac), `winget install OpenJS.NodeJS.LTS` or `winget install Python.Python.3.12` (Windows), or download from nodejs.org or python.org. Restart the terminal |

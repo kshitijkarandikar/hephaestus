@@ -15,7 +15,7 @@ description: Find overdue invoices and draft the right reminder email for each, 
 4. For each one, check the client's notes in `clients.csv` and the inbox for a related thread (for example `inbox/email-thread-*.txt`). If the client already gave a reason or a promised date, mention it kindly.
 5. Draft one email per invoice in `context/brand-voice.md` style. Always include: invoice number, invoice date, amount, due date, IBAN.
 6. Save each as `outputs/<date>-chase-<invoice>.md`.
-7. If Gmail is connected, offer to save them as drafts. Ask first. Never send.
+7. If Google is connected (level draft), offer to save each as a Gmail draft with `./kit google gmail draft ...`. Ask first. Never send.
 
 ## Rules
 - Never threaten legal steps or extra costs. Sam decides that.

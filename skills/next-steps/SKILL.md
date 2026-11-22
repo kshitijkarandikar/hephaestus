@@ -16,7 +16,7 @@ Notes, a summary from `summarize-thread`, or an inbox file. Optional: today's da
 3. Order by date. Put anything that blocks someone else first.
 4. Add a **Waiting on others** list: what I need from the client and the date I will chase.
 5. Save as `outputs/<date>-next-steps-<client>.md`.
-6. If Google Calendar is connected, offer to create events for the dated actions. Ask first. Never create without a "yes".
+6. If Google is connected, check free time first: `./kit google calendar freebusy from=<date> to=<date> hours=09:00-17:00 days=Mon,Tue,Wed,Thu`. Then offer to create events for the dated actions with `./kit google calendar create title=... start=... end=...` (needs level draft). Ask first. Never create without a "yes". Events never have guests.
 
 ## Output shape
 | Action | Who | Due | Time |
