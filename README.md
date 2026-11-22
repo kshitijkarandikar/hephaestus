@@ -355,6 +355,7 @@ This folder is a git repo (branch `main`). Commit when you want a snapshot. The 
 | The tool ignores the folder rules | Say "Read AGENTS.md first". Note which tool did not load it |
 | Asked the AI to "run the start script" and it failed (daemon folder, sandbox) | Run `./start.sh` yourself in a normal terminal. Or, inside an AI session, paste: `Read setup/BOOTSTRAP.md and do the first run of this kit.` |
 | `./start.sh`: permission denied | Run `chmod +x start.sh`, or `bash start.sh` |
+| Codex: Google commands fail (`PermissionError`, sandbox, `Could not reach Google`) | Codex runs commands in a sandbox with no internet. It should ask you to approve each `./kit google` command: click Approve. If it does not ask, tell it: "run this outside the sandbox and ask me for approval". Fallback: run `./kit google auth` in a normal terminal |
 | `./kit doctor` shows `FAIL` | Read the line. Send it to the person running the workshop |
 | Python 3 not found | Mac: `xcode-select --install`. Windows: `winget install Python.Python.3.12`. Or download from python.org. Restart the terminal |
 | `./kit: command not found` | You are not in the kit folder. Type `cd business-agent-kit` |

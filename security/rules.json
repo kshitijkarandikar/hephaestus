@@ -23,7 +23,7 @@
     "setup/**",
     "security/**",
     "worklog/**",
-    ".claude/**",
+    ".claude/**", ".codex/**",
     ".gemini/**",
     ".git/**"
   ],

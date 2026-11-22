@@ -66,6 +66,7 @@
   {"type":"command","input":"./kit google auth","expect":"ask"},
   {"type":"command","input":"./kit google auth level=draft","expect":"ask"},
   {"type":"command","input":"./kit google logout","expect":"deny"},
+  {"type":"write","input":".codex/config.toml","expect":"deny"},
   {"type":"command","input":"cat SETUP.md","expect":"allow"},
   {"type":"command","input":"cat integrations/google-kit.md","expect":"allow"},
   {"type":"command","input":"cat secrets/google-client.json","expect":"deny"},

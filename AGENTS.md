@@ -28,6 +28,7 @@ Read `context/business.md` for the business, `context/brand-voice.md` for how em
 - Never use MCP connectors, plugins, hosted Google endpoints or a Google client you write yourself. Google's hosted Gmail MCP needs a developer preview enrollment and does not work for this kit.
 - To connect Google, follow the section "Connect Google" in `setup/BOOTSTRAP.md`. You guide the user one step per message and run the commands. Do not build anything.
 - Sign-in: you run `./kit google auth` (with a 5 minute timeout, it waits for the user to click Allow). Never run `logout`. Never open the browser by other means.
+- Codex only: Codex runs commands in a sandbox that blocks the Google network. For every `./kit google` command (including `auth`), ask for approval to run it outside the sandbox **every time you run it**, starting with the first call. Never run it inside the sandbox first, and never assume an earlier approval still counts. Tell the user once, in one sentence: "Google needs the internet, so Codex will ask you to approve each Google command. Click Approve." Never change a Codex setting yourself.
 - Keep Google credentials and tokens only in `secrets/`. Never store them anywhere else, not in the repo and not in your own config folders.
 
 ## Do not start other AI sessions
